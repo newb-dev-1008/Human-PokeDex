@@ -11,9 +11,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         android:textSize="36sp"
-        android:fontFamily="sans-serif-black"/>
-
+        android:fontFamily="sans-serif-black"
+        android:textColor="@color/black"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
