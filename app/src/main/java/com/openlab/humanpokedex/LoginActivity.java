@@ -35,6 +35,13 @@ public class LoginActivity extends AppCompatActivity {
                 signUp();
             }
         });
+
+        recFace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recognizeFace();
+            }
+        });
     }
 
     public void signIn() {
@@ -45,4 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public void recognizeFace() {
+
+    }
 }
