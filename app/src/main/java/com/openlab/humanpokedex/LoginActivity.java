@@ -2,6 +2,7 @@ package com.openlab.humanpokedex;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +21,13 @@ public class LoginActivity extends AppCompatActivity {
         signIn = findViewById(R.id.signInButton);
         signUp = findViewById(R.id.signUpButton);
         recFace = findViewById(R.id.recognizeFaceButton);
+
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signIn();
+            }
+        });
     }
 
 }
