@@ -19,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
 
         signIn = findViewById(R.id.signInButton);
         signUp = findViewById(R.id.signUpButton);
+        recFace = findViewById(R.id.recognizeFaceButton);
     }
 
 }
