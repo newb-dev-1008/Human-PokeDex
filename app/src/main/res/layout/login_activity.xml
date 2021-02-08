@@ -13,7 +13,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="70dp"
         android:textSize="36sp"
+        android:id="@+id/firstPageTitle"
         android:fontFamily="sans-serif-black"
         android:textColor="@color/black"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:id="@+id/recognizeFaceButton"
+        android:layout_height="wrap_content"
+        android:text="Recognize Face"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/firstPageTitle"
+        android:layout_marginTop="30dp"
 </androidx.constraintlayout.widget.ConstraintLayout>
