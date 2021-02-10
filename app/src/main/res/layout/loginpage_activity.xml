@@ -11,7 +11,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="140dp"
         android:textSize="40sp"
         android:id="@+id/loginPageTitle"
         android:fontFamily="sans-serif-black"
@@ -25,7 +25,7 @@
         android:layout_marginEnd="25dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loginPageTitle"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="45dp"
         android:hint="Enter your email"/>
 
     <com.google.android.material.textfield.TextInputEditText
@@ -39,5 +39,15 @@
         android:layout_marginEnd="25dp"
         android:id="@+id/loginPWET"
         android:hint="Enter your password"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/loginPageSignInBtn"
+        android:text="Sign In"
+        app:layout_constraintTop_toBottomOf="@id/loginPWET"
+        android:layout_marginTop="25dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
