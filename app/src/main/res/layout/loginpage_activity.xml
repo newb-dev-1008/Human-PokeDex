@@ -13,7 +13,30 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="160dp"
         android:textSize="40sp"
+        android:id="@+id/loginPageTitle"
         android:fontFamily="sans-serif-black"
         android:textColor="@color/black"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:id="@+id/loginEmailET"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loginPageTitle"
+        android:layout_marginTop="25dp"
+        android:hint="Enter your email"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/loginEmailET"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:hint="Enter your password"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
