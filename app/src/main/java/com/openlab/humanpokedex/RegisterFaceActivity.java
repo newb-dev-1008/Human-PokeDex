@@ -1,8 +1,11 @@
 package com.openlab.humanpokedex;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -25,6 +28,18 @@ public class RegisterFaceActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
+                startCamera();
+            } else {
+                Toast.makeText(this, "Permission not granted to start camera.", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(RegisterFaceActivity.this, LoginActivity.class));
+            }
+        }
     }
 
     private void captureImagesPeriodically() {
