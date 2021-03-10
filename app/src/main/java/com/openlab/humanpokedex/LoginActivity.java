@@ -1,5 +1,6 @@
 package com.openlab.humanpokedex;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
@@ -64,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void registerFace() {
-
+        Intent intent = new Intent(LoginActivity.this, RegisterFaceActivity.class);
+        startActivity(intent);
     }
 }
