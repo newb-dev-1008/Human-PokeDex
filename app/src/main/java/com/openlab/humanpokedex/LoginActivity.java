@@ -52,19 +52,19 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void signIn() {
+    private void signIn() {
 
     }
 
-    public void signUp() {
+    private void signUp() {
 
     }
 
-    public void recognizeFace() {
+    private void recognizeFace() {
 
     }
 
-    public void registerFace() {
+    private void registerFace() {
         Intent intent = new Intent(LoginActivity.this, RegisterFaceActivity.class);
         startActivity(intent);
     }

@@ -12,4 +12,8 @@ public class RegisterFaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_face);
     }
+
+    private void captureImagesPeriodically() {
+
+    }
 }
