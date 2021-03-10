@@ -42,6 +42,10 @@ public class RegisterFaceActivity extends AppCompatActivity {
         }
     }
 
+    private void startCamera() {
+
+    }
+
     private void captureImagesPeriodically() {
 
     }
