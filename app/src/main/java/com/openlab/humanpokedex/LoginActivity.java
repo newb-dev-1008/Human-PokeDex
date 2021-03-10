@@ -11,7 +11,7 @@ import com.google.android.material.button.MaterialButton;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private MaterialButton signIn, signUp, recFace;
+    private MaterialButton signIn, signUp, recFace, regFace;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
@@ -40,6 +40,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 recognizeFace();
+            }
+        });
+
+        regFace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerFace();
             }
         });
     }
