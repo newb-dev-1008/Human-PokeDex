@@ -2,6 +2,7 @@ package com.openlab.humanpokedex;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -49,6 +50,8 @@ public class RegisterFaceActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private ImageCapture imageCapture;
     private TextInputEditText registerFaceName;
+    private String name;
+    private static Uri capturedImageUri;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +64,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
         registerFaceName = findViewById(R.id.registerFaceNameET);
 
         storageReference = FirebaseStorage.getInstance().getReference();
+        name = registerFaceName.getText().toString();
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,6 +203,8 @@ public class RegisterFaceActivity extends AppCompatActivity {
                             // Changes here
                             Toast.makeText(RegisterFaceActivity.this, "Image Captured: " + photoCount, Toast.LENGTH_SHORT).show();
                             photoCount++;
+                            StorageReference registerFacesRef = storageReference.child("Datasets/" + name);
+                            capturedImageUri = Uri.fromFile(file);
                         }
                     });
                 }
