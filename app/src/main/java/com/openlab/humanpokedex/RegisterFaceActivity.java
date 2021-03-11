@@ -12,8 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
+import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
+import androidx.camera.core.Preview;
+import androidx.camera.extensions.HdrImageCaptureExtender;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
@@ -37,6 +41,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
     private PreviewView registerPreview;
     private MaterialButton doneButton;
     private TextView instructionsText;
+    private int flag = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -116,10 +121,8 @@ public class RegisterFaceActivity extends AppCompatActivity {
         final ImageCapture imageCapture = builder
                 .setTargetRotation(this.getWindowManager().getDefaultDisplay().getRotation())
                 .build();
-        preview.setSurfaceProvider(mPreviewView.createSurfaceProvider());
-        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, preview, imageAnalysis, imageCapture);
-
-
+        preview.setSurfaceProvider(registerPreview.createSurfaceProvider());
+        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, preview, imageAnalysis, imageCapture);
 
         captureImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +150,17 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private void changeCapture() {
+        switch (flag) {
+            case 0:
+                doneButton.setText("Next");
+                String textLine_1 = "Hitting the \"Next\" button will capture your photos periodically. Try not to switch between ";
+                String textLine_2 = "front and back cameras during the process. Follow the instructions.\n";
+                String text = textLine_1 + textLine_2;
+                instructionsText.setText(text);
+        }
     }
 
     private void captureImagesPeriodically() {
