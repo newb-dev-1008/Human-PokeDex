@@ -82,6 +82,7 @@
                 android:text="Here's step 1 for adding face."
                 android:textColor="@color/white"
                 android:layout_marginBottom="15dp"
+                android:id="@+id/registerInstructions"
                 android:textAlignment="center"
                 android:textSize="18sp"
                 android:fontFamily="sans-serif-black"
