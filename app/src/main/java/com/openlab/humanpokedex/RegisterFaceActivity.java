@@ -37,7 +37,8 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 startCamera();
             } else {
                 Toast.makeText(this, "Permission not granted to start camera.", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(RegisterFaceActivity.this, LoginActivity.class));
+                Intent intent = new Intent(RegisterFaceActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         }
     }
