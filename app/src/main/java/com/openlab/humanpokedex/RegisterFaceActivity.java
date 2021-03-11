@@ -3,6 +3,7 @@ package com.openlab.humanpokedex;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
@@ -24,6 +25,9 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -42,6 +46,9 @@ public class RegisterFaceActivity extends AppCompatActivity {
     private MaterialButton doneButton;
     private TextView instructionsText;
     private int flag = 0, photoCount = 0, capturePic = 0;
+    private StorageReference storageReference;
+    private ImageCapture imageCapture;
+    private TextInputEditText registerFaceName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +58,9 @@ public class RegisterFaceActivity extends AppCompatActivity {
         registerPreview = findViewById(R.id.registerFacePreview);
         doneButton = findViewById(R.id.registerFaceDoneBtn);
         instructionsText = findViewById(R.id.registerInstructions);
+        registerFaceName = findViewById(R.id.registerFaceNameET);
+
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +118,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 .build();
 
         CameraSelector cameraSelector = new CameraSelector.Builder()
-                .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+                .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
                 .build();
 
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
@@ -125,7 +135,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
             hdrImageCaptureExtender.enableExtension(cameraSelector);
         }
 
-        final ImageCapture imageCapture = builder
+        imageCapture = builder
                 .setTargetRotation(this.getWindowManager().getDefaultDisplay().getRotation())
                 .build();
         preview.setSurfaceProvider(registerPreview.createSurfaceProvider());
@@ -165,7 +175,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 instructionsText.setText(text4);
                 capturePic = 1;
                 captureImagesPeriodically();
-            case 4:ā
+            case 4:
                 Intent intent = new Intent(RegisterFaceActivity.this, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -177,7 +187,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
     private void captureImagesPeriodically() {
         while (capturePic == 1) {
             SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
-            File file = new File(getBatchDirectoryName(), mDateFormat.format(new Date()) + ".jpg");
+            File file = new File(Environment.getDataDirectory(), mDateFormat.format(new Date()) + ".jpg");
 
             ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(file).build();
             imageCapture.takePicture(outputFileOptions, executor, new ImageCapture.OnImageSavedCallback() {
