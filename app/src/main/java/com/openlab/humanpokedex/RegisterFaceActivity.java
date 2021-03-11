@@ -162,10 +162,16 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 instructionsText.setText(text1);
             case 1:
                 doneButton.setText("Done, next step");
-                String textLine_21 = "Turn your head slowly from side to side.\n";
+                String textLine_21 = "Turn your head slowly from side to side, with a neutral face.\n";
                 String textLine_22 = "Take 10 seconds to move from one side to the other.\n";
                 String text2 = textLine_21 + textLine_22;
                 instructionsText.setText(text2);
+            case 2:
+                doneButton.setText("Done, next step");
+                String textLine_31 = "Turn your head slowly from side to side, with a smile.\n";
+                String textLine_32 = "Take 10 seconds to move from one side to the other.\n";
+                String text3 = textLine_31 + textLine_32;
+                instructionsText.setText(text3);
         }
     }
 
