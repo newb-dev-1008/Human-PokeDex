@@ -165,7 +165,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 instructionsText.setText(text4);
                 capturePic = 1;
                 captureImagesPeriodically();
-            case 4:
+            case 4:ā
                 Intent intent = new Intent(RegisterFaceActivity.this, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
