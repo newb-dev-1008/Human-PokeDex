@@ -156,10 +156,16 @@ public class RegisterFaceActivity extends AppCompatActivity {
         switch (flag) {
             case 0:
                 doneButton.setText("Next");
-                String textLine_1 = "Hitting the \"Next\" button will capture your photos periodically. Try not to switch between ";
-                String textLine_2 = "front and back cameras during the process. Follow the instructions.\n";
-                String text = textLine_1 + textLine_2;
-                instructionsText.setText(text);
+                String textLine_11 = "Hitting the \"Next\" button will capture your photos periodically. Try not to switch between ";
+                String textLine_12 = "front and back cameras during the process. Follow the instructions.\n";
+                String text1 = textLine_11 + textLine_12;
+                instructionsText.setText(text1);
+            case 1:
+                doneButton.setText("Done, next step");
+                String textLine_21 = "Turn your head slowly from side to side.\n";
+                String textLine_22 = "Take 10 seconds to move from one side to the other.\n";
+                String text2 = textLine_21 + textLine_22;
+                instructionsText.setText(text2);
         }
     }
 
