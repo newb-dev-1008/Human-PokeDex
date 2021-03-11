@@ -172,6 +172,12 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 String textLine_32 = "Take 10 seconds to move from one side to the other.\n";
                 String text3 = textLine_31 + textLine_32;
                 instructionsText.setText(text3);
+            case 3:
+                doneButton.setText("Done, finish registration");
+                String textLine_41 = "Hold your phone in front of your face and stretch your hand.\n";
+                String textLine_42 = "Move the camera towards and away from your face slowly.\n";
+                String text4 = textLine_41 + textLine_42;
+                instructionsText.setText(text4);
         }
     }
 
