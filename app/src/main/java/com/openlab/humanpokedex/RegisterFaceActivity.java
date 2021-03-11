@@ -51,6 +51,14 @@ public class RegisterFaceActivity extends AppCompatActivity {
         registerPreview = findViewById(R.id.registerFacePreview);
         doneButton = findViewById(R.id.registerFaceDoneBtn);
         instructionsText = findViewById(R.id.registerInstructions);
+
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ++flag;
+                changeCapture();
+            }
+        });
     }
 
     private boolean allPermissionsGranted() {
@@ -123,40 +131,6 @@ public class RegisterFaceActivity extends AppCompatActivity {
         preview.setSurfaceProvider(registerPreview.createSurfaceProvider());
         Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, preview, imageAnalysis, imageCapture);
 
-        doneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ++flag;
-                changeCapture();
-            }
-        });
-
-        captureImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
-                File file = new File(getBatchDirectoryName(), mDateFormat.format(new Date())+ ".jpg");
-
-                ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(file).build();
-                imageCapture.takePicture(outputFileOptions, executor, new ImageCapture.OnImageSavedCallback () {
-                    @Override
-                    public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                        new Handler().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                // Changes here
-                                Toast.makeText(RegisterFaceActivity.this, "Image Saved successfully", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                    @Override
-                    public void onError(@NonNull ImageCaptureException error) {
-                        error.printStackTrace();
-                    }
-                });
-            }
-        });
     }
 
     private void changeCapture() {
@@ -173,6 +147,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 String textLine_22 = "Take 10 seconds to move from one side to the other.\n";
                 String text2 = textLine_21 + textLine_22;
                 instructionsText.setText(text2);
+                capturePic = 1;
                 captureImagesPeriodically();
             case 2:
                 doneButton.setText("Done, next step");
@@ -180,12 +155,22 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 String textLine_32 = "Take 10 seconds to move from one side to the other.\n";
                 String text3 = textLine_31 + textLine_32;
                 instructionsText.setText(text3);
+                capturePic = 1;
+                captureImagesPeriodically();
             case 3:
                 doneButton.setText("Done, finish registration");
                 String textLine_41 = "Hold your phone in front of your face and stretch your hand.\n";
                 String textLine_42 = "Move the camera towards and away from your face slowly.\n";
                 String text4 = textLine_41 + textLine_42;
                 instructionsText.setText(text4);
+                capturePic = 1;
+                captureImagesPeriodically();
+            case 4:
+                Intent intent = new Intent(RegisterFaceActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                Toast.makeText(this, "Thanks! Your face has been registered.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -218,6 +203,12 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 Thread.sleep(2 * 1000);
             } catch (InterruptedException e) {
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+            if (photoCount == 10) {
+                capturePic = 0;
+                instructionsText.setText("Done! You can proceed to the next step.\n");
+                photoCount = 0;
             }
         }
     }
