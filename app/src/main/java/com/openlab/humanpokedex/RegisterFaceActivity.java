@@ -45,7 +45,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
 
         registerPreview = findViewById(R.id.registerFacePreview);
         doneButton = findViewById(R.id.registerFaceDoneBtn);
-        instructionsText = findViewById(R.id.)
+        instructionsText = findViewById(R.id.registerInstructions);
     }
 
     private boolean allPermissionsGranted() {
