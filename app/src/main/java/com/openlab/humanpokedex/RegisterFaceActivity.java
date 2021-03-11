@@ -145,7 +145,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
         imageCapture = builder
                 .setTargetRotation(this.getWindowManager().getDefaultDisplay().getRotation())
                 .build();
-        preview.setSurfaceProvider(registerPreview.createSurfaceProvider());
+        preview.setSurfaceProvider(registerPreview.);
         Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, preview, imageAnalysis, imageCapture);
 
     }
