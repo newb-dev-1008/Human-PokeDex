@@ -41,7 +41,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
     private PreviewView registerPreview;
     private MaterialButton doneButton;
     private TextView instructionsText;
-    private int flag = 0;
+    private int flag = 0, photoCount = 0, capturePic = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -173,6 +173,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 String textLine_22 = "Take 10 seconds to move from one side to the other.\n";
                 String text2 = textLine_21 + textLine_22;
                 instructionsText.setText(text2);
+                captureImagesPeriodically();
             case 2:
                 doneButton.setText("Done, next step");
                 String textLine_31 = "Turn your head slowly from side to side, with a smile.\n";
@@ -189,6 +190,35 @@ public class RegisterFaceActivity extends AppCompatActivity {
     }
 
     private void captureImagesPeriodically() {
+        while (capturePic == 1) {
+            SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
+            File file = new File(getBatchDirectoryName(), mDateFormat.format(new Date()) + ".jpg");
 
+            ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(file).build();
+            imageCapture.takePicture(outputFileOptions, executor, new ImageCapture.OnImageSavedCallback() {
+                @Override
+                public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Changes here
+                            Toast.makeText(RegisterFaceActivity.this, "Image Captured: " + photoCount, Toast.LENGTH_SHORT).show();
+                            photoCount++;
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(@NonNull ImageCaptureException error) {
+                    error.printStackTrace();
+                }
+            });
+
+            try {
+                Thread.sleep(2 * 1000);
+            } catch (InterruptedException e) {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
