@@ -79,7 +79,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Here's step 1 for adding face."
+                android:text="@string/reg_face_instruction"
                 android:textColor="@color/white"
                 android:layout_marginBottom="15dp"
                 android:id="@+id/registerInstructions"
@@ -95,7 +95,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
-                android:text="Done, Next Step"/>
+                android:text="Next"/>
 
         </LinearLayout>
 

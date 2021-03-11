@@ -84,7 +84,6 @@ public class RegisterFaceActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-
                     ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
                     bindPreview(cameraProvider);
 
@@ -123,6 +122,14 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 .build();
         preview.setSurfaceProvider(registerPreview.createSurfaceProvider());
         Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, preview, imageAnalysis, imageCapture);
+
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ++flag;
+                changeCapture();
+            }
+        });
 
         captureImage.setOnClickListener(new View.OnClickListener() {
             @Override
