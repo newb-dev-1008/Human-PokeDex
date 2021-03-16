@@ -2,7 +2,6 @@ import numpy as np
 import Augmentor
 
 imagePaths = # Path of folder containing new images
-p = Augmentor.Pipeline(imagePaths)
 
 for imagePath in imagePaths:
     name = imagePath.split(os.path.sep)[-2]
@@ -42,4 +41,10 @@ def brightImage(image):
     cv2.imwrite(filename, brightImage)
 
 # Tilt image to certain angles
-def tiltedImage(image):
+def tiltedImage(image, imagePath):
+    p = Augmentor.Pipeline(imagePath)
+    p.rotate(probability = 1, max_left_rotate = 15, max_right_rotate = 15)
+    tilted_images, label = p.sample(10)
+    for i in range(len(tilted_images)):
+        filename = "tilted_" + imagePath.split(os.path.sep)[-1] + "_" + i + ".jpg"
+        cv2.imwrite(filename, tilted_images[i])
