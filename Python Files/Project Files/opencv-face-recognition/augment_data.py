@@ -48,3 +48,22 @@ def tiltedImage(image, imagePath):
     for i in range(len(tilted_images)):
         filename = "tilted_" + imagePath.split(os.path.sep)[-1] + "_" + i + ".jpg"
         cv2.imwrite(filename, tilted_images[i])
+    
+# Mirror image
+def mirrorImage(image, imagePath):
+    p = Augmentor.Pipeline(imagePath)
+    p.flip_left_right(probability = 1)
+    flipped_images, label = p.sample(1)
+    filename = "mirror_" + imagePath.split(os.path.sep)[-1] + ".jpg"
+    cv2.imwrite(filename, flipped_images[0])
+
+# Dull the image
+
+# Shearing image
+def shearImage(image, imagePath):
+    p = Augmentor.Pipeline(imagePath)
+    p.shear(probability = 1, 15, 15)
+    sheared_images, label = p.sample(10)
+    for i in range(len(tilted_images)):
+        filename = "tilted_" + imagePath.split(os.path.sep)[-1] + "_" + i + ".jpg"
+        cv2.imwrite(filename, tilted_images[i])
