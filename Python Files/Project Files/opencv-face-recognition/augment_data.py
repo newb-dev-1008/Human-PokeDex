@@ -17,3 +17,7 @@ def blurImage(image):
     cv2.imwrite(filename, blurredImage))
 
 # Function to sharpen the image
+def sharpenImage(image):
+    kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
+    return cv2.filter2D(image, -1, kernel)
+
