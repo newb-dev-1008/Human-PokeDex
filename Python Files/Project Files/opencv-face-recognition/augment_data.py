@@ -76,3 +76,12 @@ def skewedImage(image, imagePath):
     for i in range(len(skewed_images)):
         filename = "skewed_" + imagePath.split(os.path.sep)[-1] + "_" + i + ".jpg"
         cv2.imwrite(filename, skewed_images[i])
+
+# Black and White 
+def bwImage(image, imagePath):
+    p = Augmentor.Pipeline(imagePath)
+    p.black_and_white(probability = 1, threshold = 256)
+    bwImages, label = p.sample(1)
+    for i in range(len(bwImages)):
+        filename = "bw_" + imagePath.split(os.path.sep)[-1] + ".jpg"
+        cv2.imwrite(filename, bwImages[0])
