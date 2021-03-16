@@ -10,6 +10,9 @@ for imagePath in imagePaths:
     filename = "blurred"
     cv2.imwrite("")
 
+
+# ---------------------------- Functions for data augmentation ----------------------------
+
 # Function to blur the image
 def blurImage(image):
     blurredImage = gaussianBlur(copy.deepcopy(image))
@@ -24,4 +27,14 @@ def sharpenImage(image):
     cv2.imwrite(filename, sharpImage)
 
 # Function to add Sepia effect 
-def sepiaImage
+def sepiaImage(image):
+    kernel = np.array([[0.272, 0.534, 0.131], [0.349, 0.686, 0.168], [0.393, 0.769, 0.189]])
+    sepiaImage = cv2.filter2D(image, -1, kernel)
+    filename = "sepia_" + imagePath.split(os.path.sep)[-1] + ".jpg"
+    cv2.imwrite(filename, sharpImage)
+
+# Function to add brightness
+def brightImage(image):
+    brightImage = cv2.convertScaleAbs(image, 3)
+    filename = "bright_" + imagePath.split(os.path.sep)[-1] + ".jpg"
+    cv2.imwrite(filename, brightImage)
