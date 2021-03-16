@@ -64,6 +64,6 @@ def shearImage(image, imagePath):
     p = Augmentor.Pipeline(imagePath)
     p.shear(probability = 1, 15, 15)
     sheared_images, label = p.sample(10)
-    for i in range(len(tilted_images)):
-        filename = "tilted_" + imagePath.split(os.path.sep)[-1] + "_" + i + ".jpg"
-        cv2.imwrite(filename, tilted_images[i])
+    for i in range(len(sheared_images)):
+        filename = "sheared_" + imagePath.split(os.path.sep)[-1] + "_" + i + ".jpg"
+        cv2.imwrite(filename, sheared_images[i])
