@@ -206,14 +206,14 @@ public class RegisterFaceActivity extends AppCompatActivity {
                             // Changes here
                             Toast.makeText(RegisterFaceActivity.this, "Image Captured: " + photoCount, Toast.LENGTH_SHORT).show();
                             photoCount++;
-                            StorageReference registerFacesRef = storageReference.child("Datasets/" + name);
+                            StorageReference registerFacesRef = storageReference.child("New Datasets/" + name);
                             capturedImageUri = Uri.fromFile(file);
 
                             UploadTask uploadTask = registerFacesRef.putFile(capturedImageUri);
                             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    // do nothing.
+                                    // finish this
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
