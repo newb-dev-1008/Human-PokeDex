@@ -19,5 +19,9 @@ def blurImage(image):
 # Function to sharpen the image
 def sharpenImage(image):
     kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
-    return cv2.filter2D(image, -1, kernel)
+    sharpImage = cv2.filter2D(image, -1, kernel)
+    filename = "sharpened_" + imagePath.split(os.path.sep)[-1] + ".jpg"
+    cv2.imwrite(filename, sharpImage)
 
+# Function to add Sepia effect 
+def sepiaImage
