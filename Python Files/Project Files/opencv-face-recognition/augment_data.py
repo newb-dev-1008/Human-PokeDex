@@ -1,15 +1,14 @@
 import numpy as np
 import Augmentor
 
-imagePaths = # Path of folder containing new images
+imagePath = "https://console.firebase.google.com/project/human-pokedex/storage/human-pokedex.appspot.com/files"
 
 for imagePath in imagePaths:
     name = imagePath.split(os.path.sep)[-2]
 
-    image = cv2.imread(imagePath)
-    blurredImage = gaussianBlur(copy.deepcopy(image))
-    filename = "blurred"
-    cv2.imwrite("")
+    # Perform data augmentation
+    blurImage(imagePath)
+    sharpenImage(imagePath)
 
 
 # ---------------------------- Functions for data augmentation ----------------------------
