@@ -67,3 +67,12 @@ def shearImage(image, imagePath):
     for i in range(len(sheared_images)):
         filename = "sheared_" + imagePath.split(os.path.sep)[-1] + "_" + i + ".jpg"
         cv2.imwrite(filename, sheared_images[i])
+
+# Skewing image
+def skewedImage(image, imagePath):
+    p = Augmentor.Pipeline(imagePath)
+    p.skew(probability = 1, magnitude = 0.7)
+    skewed_images, label = p.sample(10)
+    for i in range(len(skewed_images)):
+        filename = "skewed_" + imagePath.split(os.path.sep)[-1] + "_" + i + ".jpg"
+        cv2.imwrite(filename, skewed_images[i])
