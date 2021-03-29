@@ -3,10 +3,12 @@ package com.openlab.humanpokedex;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.loader.content.AsyncTaskLoader;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -58,6 +61,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
     private String name;
     private static Uri capturedImageUri;
     private ArrayList<Uri> imageURIs;
+    private ProgressBar registerProgress;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +72,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
         doneButton = findViewById(R.id.registerFaceDoneBtn);
         instructionsText = findViewById(R.id.registerInstructions);
         registerFaceName = findViewById(R.id.registerFaceNameET);
+        registerProgress = findViewById(R.id.registerProgress);
 
         storageReference = FirebaseStorage.getInstance().getReference();
         name = registerFaceName.getText().toString();
@@ -257,5 +262,22 @@ public class RegisterFaceActivity extends AppCompatActivity {
 
     private void uploadImageArray() {
 
+    }
+
+    private class RegisterAsyncTask extends AsyncTask<Uri, Integer, Integer> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+        }
+
+        @Override
+        protected Integer doInBackground(Uri... uris) {
+            return null;
+        }
     }
 }
