@@ -34,7 +34,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
@@ -55,6 +57,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
     private TextInputEditText registerFaceName;
     private String name;
     private static Uri capturedImageUri;
+    private ArrayList<Uri> imageURIs;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
 
         storageReference = FirebaseStorage.getInstance().getReference();
         name = registerFaceName.getText().toString();
+        imageURIs = new ArrayList<>();
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,8 +210,10 @@ public class RegisterFaceActivity extends AppCompatActivity {
                             // Changes here
                             Toast.makeText(RegisterFaceActivity.this, "Image Captured: " + photoCount, Toast.LENGTH_SHORT).show();
                             photoCount++;
-                            StorageReference registerFacesRef = storageReference.child("New Datasets/" + name);
                             capturedImageUri = Uri.fromFile(file);
+                            imageURIs.add(capturedImageUri);
+                            // StorageReference registerFacesRef = storageReference.child("New Datasets/" + name);
+                            // capturedImageUri = Uri.fromFile(file);
 
                             UploadTask uploadTask = registerFacesRef.putFile(capturedImageUri);
                             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -247,5 +253,9 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 photoCount = 0;
             }
         }
+    }
+
+    private void uploadImageArray() {
+
     }
 }
