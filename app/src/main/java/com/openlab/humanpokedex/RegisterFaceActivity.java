@@ -62,6 +62,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
     private String name;
     private static Uri capturedImageUri;
     private ArrayList<Uri> imageURIs;
+    private int count = 0;
     private ProgressBar registerProgress;
 
     @Override
@@ -252,6 +253,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
         photoCount = 0;
     }
 
+    // AsyncTask Inner Class
     private class RegisterAsyncTask extends AsyncTask<ArrayList<Uri>, Integer, Integer> {
         @Override
         protected void onPreExecute() {
@@ -279,6 +281,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // finish this
+                        count++;
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
