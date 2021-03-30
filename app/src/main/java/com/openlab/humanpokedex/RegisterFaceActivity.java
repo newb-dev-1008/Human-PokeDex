@@ -35,6 +35,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -157,7 +158,10 @@ public class RegisterFaceActivity extends AppCompatActivity {
         imageCapture = builder
                 .setTargetRotation(this.getWindowManager().getDefaultDisplay().getRotation())
                 .build();
-        preview.setSurfaceProvider(registerPreview.);
+
+        preview.setSurfaceProvider(registerPreview.getSurfaceProvider());
+        // registerPreview.setImplementationMode(PreviewView.ImplementationMode.SURFACE_VIEW);
+        // preview.setSurfaceProvider(registerPreview.));
         Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, preview, imageAnalysis, imageCapture);
 
     }

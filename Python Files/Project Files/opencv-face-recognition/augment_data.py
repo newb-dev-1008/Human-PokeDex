@@ -1,5 +1,7 @@
 import numpy as np
 import Augmentor
+import os 
+import cv2
 
 imagePaths = list(paths.list_images("C:\\Users\\Yash Umale\\Documents\\6th Sem\\Open Lab\\Python Files\\Project Files\\New Datasets"))
 
@@ -23,7 +25,7 @@ for imagePath in imagePaths:
 def blurImage(imagePath):
     old_image = cv2.imread(imagePath)
     image = old_image.copy()
-    blurredImage = gaussianBlur(copy.deepcopy(image))
+    blurredImage = cv2.blur(image, (5, 5))
     filename = "blurred_" + imagePath.split(os.path.sep)[-1] + ".jpg"
     cv2.imwrite(filename, blurredImage) 
 
