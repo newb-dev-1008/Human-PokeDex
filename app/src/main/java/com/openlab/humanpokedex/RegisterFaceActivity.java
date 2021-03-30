@@ -266,6 +266,12 @@ public class RegisterFaceActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
+
+            capturePic = 0;
+            instructionsText.setText("Done! You can proceed to the next step.\n");
+            photoCount = 0;
+            registerProgress.setVisibility(View.GONE);
+            doneButton.setVisibility(View.VISIBLE);
         }
 
         @Override
