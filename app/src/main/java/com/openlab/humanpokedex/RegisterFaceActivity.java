@@ -38,6 +38,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.ref.WeakReference;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -240,7 +241,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
             }
 
             if (photoCount == 10) {
-                RegisterAsyncTask asyncTask = new RegisterAsyncTask();
+                RegisterAsyncTask asyncTask = new RegisterAsyncTask(this);
                 asyncTask.execute(imageURIs);
 
             }
@@ -254,30 +255,53 @@ public class RegisterFaceActivity extends AppCompatActivity {
     }
 
     // AsyncTask Inner Class
-    private class RegisterAsyncTask extends AsyncTask<ArrayList<Uri>, Integer, Integer> {
+    private static class RegisterAsyncTask extends AsyncTask<ArrayList<Uri>, Integer, Integer> {
+        private WeakReference<RegisterFaceActivity> weakReference;
+
+        RegisterAsyncTask (RegisterFaceActivity activity) {
+            weakReference = new WeakReference<RegisterFaceActivity>(activity);
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
-            registerProgress.setVisibility(View.VISIBLE);
-            instructionsText.setText("Please wait, uploading your photos...");
+            RegisterFaceActivity activity = weakReference.get();
+            if (activity == null || activity.isFinishing()) {
+                return;
+            }
+
+            activity.instructionsText.setText("Please wait, uploading your photos...");
+            activity.registerProgress.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
 
-            capturePic = 0;
-            instructionsText.setText("Done! You can proceed to the next step.\n");
-            photoCount = 0;
-            registerProgress.setVisibility(View.GONE);
-            doneButton.setVisibility(View.VISIBLE);
+            RegisterFaceActivity activity = weakReference.get();
+            if (activity == null || activity.isFinishing()) {
+                return;
+            }
+
+            activity.capturePic = 0;
+            activity.instructionsText.setText("Done! You can proceed to the next step.\n");
+            activity.photoCount = 0;
+            activity.registerProgress.setVisibility(View.GONE);
+            activity.doneButton.setVisibility(View.VISIBLE);
+            Toast.makeText(activity, "Uploaded "+ activity.count + "images.", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         protected Integer doInBackground(ArrayList<Uri>... Uris) {
 
-            StorageReference registerFacesRef = storageReference.child("New Datasets/" + name);
+            RegisterFaceActivity activity = weakReference.get();
+            if (activity == null || activity.isFinishing()) {
+                return null;
+            }
+
+
+            StorageReference registerFacesRef = activity.storageReference.child("New Datasets/" + activity.name);
             ArrayList<Uri> passedArray = new ArrayList<>();
             passedArray = Uris[0];
             for (int i = 0; i < Uris.length; i++) {
@@ -287,16 +311,16 @@ public class RegisterFaceActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // finish this
-                        count++;
+                        activity.count++;
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(RegisterFaceActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(RegisterFaceActivity.this, LoginActivity.class);
+                        Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(activity, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
+                        activity.startActivity(intent);
                     }
                 });
             }
