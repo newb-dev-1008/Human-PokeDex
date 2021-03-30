@@ -32,6 +32,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.FirebaseError;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -44,7 +46,9 @@ import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -65,6 +69,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
     private static Uri capturedImageUri;
     private ArrayList<Uri> imageURIs;
     private int count = 0;
+    private FirebaseFirestore db;
     private ProgressBar registerProgress;
 
     @Override
@@ -77,6 +82,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
         instructionsText = findViewById(R.id.registerInstructions);
         registerFaceName = findViewById(R.id.registerFaceNameET);
         registerProgress = findViewById(R.id.registerProgress);
+        db = FirebaseFirestore.getInstance();
 
         storageReference = FirebaseStorage.getInstance().getReference();
         name = registerFaceName.getText().toString();
@@ -252,12 +258,6 @@ public class RegisterFaceActivity extends AppCompatActivity {
         }
     }
 
-    private void uploadImageArray() {
-        capturePic = 0;
-        instructionsText.setText("Done! You can proceed to the next step.\n");
-        photoCount = 0;
-    }
-
     // AsyncTask Inner Class
     private static class RegisterAsyncTask extends AsyncTask<ArrayList<Uri>, Integer, Integer> {
         private WeakReference<RegisterFaceActivity> weakReference;
@@ -294,6 +294,18 @@ public class RegisterFaceActivity extends AppCompatActivity {
             activity.registerProgress.setVisibility(View.GONE);
             activity.doneButton.setVisibility(View.VISIBLE);
             Toast.makeText(activity, "Uploaded "+ activity.count + "images.", Toast.LENGTH_SHORT).show();
+            activity.name = activity.registerFaceName.getText().toString().trim();
+
+            Map<String, Object> userMap = new HashMap<>();
+            userMap.put("Username", activity.name);
+
+            activity.db.collection("Users").document("Username " + activity.name).set(userMap)
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
 
         @Override
