@@ -38,6 +38,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -163,12 +164,14 @@ public class RegisterFaceActivity extends AppCompatActivity {
         switch (flag) {
             case 0:
                 doneButton.setText("Next");
+                doneButton.setVisibility(View.GONE);
                 String textLine_11 = "Hitting the \"Next\" button will capture your photos periodically. Try not to switch between ";
                 String textLine_12 = "front and back cameras during the process. Follow the instructions.\n";
                 String text1 = textLine_11 + textLine_12;
                 instructionsText.setText(text1);
             case 1:
                 doneButton.setText("Done, next step");
+                doneButton.setVisibility(View.GONE);
                 String textLine_21 = "Turn your head slowly from side to side, with a neutral face.\n";
                 String textLine_22 = "Take 10 seconds to move from one side to the other.\n";
                 String text2 = textLine_21 + textLine_22;
@@ -177,6 +180,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 captureImagesPeriodically();
             case 2:
                 doneButton.setText("Done, next step");
+                doneButton.setVisibility(View.GONE);
                 String textLine_31 = "Turn your head slowly from side to side, with a smile.\n";
                 String textLine_32 = "Take 10 seconds to move from one side to the other.\n";
                 String text3 = textLine_31 + textLine_32;
@@ -185,6 +189,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 captureImagesPeriodically();
             case 3:
                 doneButton.setText("Done, finish registration");
+                doneButton.setVisibility(View.GONE);
                 String textLine_41 = "Hold your phone in front of your face and stretch your hand.\n";
                 String textLine_42 = "Move the camera towards and away from your face slowly.\n";
                 String text4 = textLine_41 + textLine_42;
@@ -217,32 +222,13 @@ public class RegisterFaceActivity extends AppCompatActivity {
                             photoCount++;
                             capturedImageUri = Uri.fromFile(file);
                             imageURIs.add(capturedImageUri);
-                            // StorageReference registerFacesRef = storageReference.child("New Datasets/" + name);
-                            // capturedImageUri = Uri.fromFile(file);
-
-                            UploadTask uploadTask = registerFacesRef.putFile(capturedImageUri);
-                            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    // finish this
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(RegisterFaceActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(RegisterFaceActivity.this, LoginActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
-                                }
-                            });
                         }
                     });
                 }
 
                 @Override
                 public void onError(@NonNull ImageCaptureException error) {
-                    error.printStackTrace();
+                    Toast.makeText(RegisterFaceActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -253,21 +239,26 @@ public class RegisterFaceActivity extends AppCompatActivity {
             }
 
             if (photoCount == 10) {
-                capturePic = 0;
-                instructionsText.setText("Done! You can proceed to the next step.\n");
-                photoCount = 0;
+                RegisterAsyncTask asyncTask = new RegisterAsyncTask();
+                asyncTask.execute(imageURIs);
+
             }
         }
     }
 
     private void uploadImageArray() {
-
+        capturePic = 0;
+        instructionsText.setText("Done! You can proceed to the next step.\n");
+        photoCount = 0;
     }
 
-    private class RegisterAsyncTask extends AsyncTask<Uri, Integer, Integer> {
+    private class RegisterAsyncTask extends AsyncTask<ArrayList<Uri>, Integer, Integer> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+            registerProgress.setVisibility(View.VISIBLE);
+            instructionsText.setText("Please wait, uploading your photos...");
         }
 
         @Override
@@ -276,7 +267,31 @@ public class RegisterFaceActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Integer doInBackground(Uri... uris) {
+        protected Integer doInBackground(ArrayList<Uri>... Uris) {
+
+            StorageReference registerFacesRef = storageReference.child("New Datasets/" + name);
+            ArrayList<Uri> passedArray = new ArrayList<>();
+            passedArray = Uris[0];
+            for (int i = 0; i < Uris.length; i++) {
+                capturedImageUri = passedArray.get(i);
+                UploadTask uploadTask = registerFacesRef.putFile(capturedImageUri);
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // finish this
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(RegisterFaceActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RegisterFaceActivity.this, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                });
+            }
+
             return null;
         }
     }
