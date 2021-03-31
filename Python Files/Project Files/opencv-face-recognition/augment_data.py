@@ -2,6 +2,11 @@ import numpy as np
 import Augmentor
 import os 
 import cv2
+import shutil
+import firebase_admin
+from firebase_admin import firestore
+from firebase_admin import credentials
+from imutils import paths
 
 # -------------------------------------- Main ---------------------------------------------
 
@@ -31,8 +36,8 @@ destination = '/content/drive/MyDrive/Open Lab/Datasets 1/' + name
 movePhotos(destination, name)
 print('\nDeleted new datasets after moving.\n')
 
-# ---------------------------- Functions for data augmentation ----------------------------
 
+# ---------------------------- Functions for data augmentation ----------------------------
 
 # Function to move photos from /output to /Datasets/Username
 def movePhotos(destination, name):
@@ -113,12 +118,6 @@ def tiltedImage(imagePath, userName):
     p = Augmentor.Pipeline(imagePath)
     p.rotate(1, 15, 15)
     old_image = cv2.imread(imagePath)
-    # image = old_image.copy()
-    # tilted_images, label = p.sample(10)
-    # os.chdir(r'/content/drive/MyDrive/Open Lab/Datasets 1/' + userName)
-    # for i in range(len(tilted_images)):
-    #     filename = "tilted_" + userName + "_" + str(i) + ".jpg"
-    #     cv2.imwrite(filename, tilted_images[i])
 
 
 # Mirror image
@@ -126,12 +125,6 @@ def mirrorImage(imagePath, userName):
     p = Augmentor.Pipeline(imagePath)
     p.flip_left_right(probability = 1)
     old_image = cv2.imread(imagePath)
-    # image = old_image.copy()
-    # flipped_images, label = p.sample(10)
-    # os.chdir(r'/content/drive/MyDrive/Open Lab/Datasets 1/' + userName)
-    # for i in range(len(flipped_images)):
-    #     filename = "flipped_" + userName + "_" + str(i) + ".jpg"
-    #     cv2.imwrite(filename, flipped_images[i])
 
 
 # Shearing image
@@ -139,12 +132,6 @@ def shearImage(imagePath, userName):
     p = Augmentor.Pipeline(imagePath)
     p.shear(probability = 1, max_shear_left = 15, max_shear_right = 15)
     old_image = cv2.imread(imagePath)
-    # image = old_image.copy()
-    # sheared_images, label = p.sample(10)
-    # os.chdir(r'/content/drive/MyDrive/Open Lab/Datasets 1/' + userName)
-    # for i in range(len(sheared_images)):
-    #     filename = "sheared_" + userName + "_" + str(i) + ".jpg"
-    #     cv2.imwrite(filename, sheared_images[i])
 
 
 # Skewing image
@@ -152,12 +139,6 @@ def skewedImage(imagePath, userName):
     p = Augmentor.Pipeline(imagePath)
     p.skew(probability = 1, magnitude = 0.7)
     old_image = cv2.imread(imagePath)
-    # image = old_image.copy()
-    # skewed_images, label = p.sample(10)
-    # os.chdir(r'/content/drive/MyDrive/Open Lab/Datasets 1/' + userName)
-    # for i in range(len(skewed_images)):
-    #     filename = "skewed_" + userName + "_" + str(i) + ".jpg"
-    #     cv2.imwrite(filename, skewed_images[i])
 
 
 # Black and White 
@@ -165,12 +146,6 @@ def bwImage(imagePath, userName):
     p = Augmentor.Pipeline(imagePath)
     p.black_and_white(probability = 1, threshold = 255)
     old_image = cv2.imread(imagePath)
-    # image = old_image.copy()
-    # bwImages, label = p.process()
-    # os.chdir(r'/content/drive/MyDrive/Open Lab/Datasets 1/' + userName)
-    # for i in range(len(bwImages)):
-    #     filename = "bw_" + userName + "_" + str(i) + ".jpg"
-    #     cv2.imwrite(filename, bwImages[0])
 
 
 # Initialize pipeline
