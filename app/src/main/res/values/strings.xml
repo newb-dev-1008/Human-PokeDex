@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">HomoDex</string>
-    <string name="reg_face_instruction">Hitting the "Next" button will capture your photos periodically. Try not to switch between front and back cameras during the process. Follow the instructions.</string>
+    <string name="reg_face_instruction">Hitting the Next button will capture your photos periodically. Try not to switch between front and back cameras during the process. Follow the instructions.</string>
 </resources>

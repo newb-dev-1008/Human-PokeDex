@@ -306,6 +306,15 @@ public class RegisterFaceActivity extends AppCompatActivity {
                             Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
+
+            activity.db.collection("New Users").document("Username " + activity.name).set(userMap)
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
         }
 
         @Override

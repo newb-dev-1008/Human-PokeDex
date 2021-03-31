@@ -3,108 +3,167 @@ import Augmentor
 import os 
 import cv2
 
-imagePaths = list(paths.list_images("C:\\Users\\Yash Umale\\Documents\\6th Sem\\Open Lab\\Python Files\\Project Files\\New Datasets"))
+# -------------------------------------- Main ---------------------------------------------
 
-for imagePath in imagePaths:
-    name = imagePath.split(os.path.sep)[-2]
-
-    # Perform data augmentation
-    blurImage(imagePath)
-    sharpenImage(imagePath)
-    sepiaImage(imagePath)
-    brightImage(imagePath)
-    tiltedImage(imagePath)
-    mirrorImage(imagePath)
-    shearImage(imagePath)
-    skewedImage(imagePath)
-    bwImage(imagePath)
 
 # ---------------------------- Functions for data augmentation ----------------------------
 
+
+# Function to move photos from /output to /Datasets/Username
+def movePhotos(destination, name):
+  imagePaths = list(paths.list_images(r"/content/drive/MyDrive/Open Lab/New Datasets 1"))
+  print(imagePaths)
+  input("Press any key.")
+  for imagePath in imagePaths:
+    shutil.copy(imagePath, destination)
+  
+  print("Moved all files.\n")
+  delPath = '/content/drive/MyDrive/Open Lab/New Datasets 1/' + name
+  shutil.rmtree(delPath)
+
+
+# Function to retrieve person's name
+def firestoreName():
+  cred = credentials.Certificate("/content/drive/MyDrive/Open Lab/Private Keys/human-pokedex-firebase-adminsdk-37ou3-147a3cdcff.json")
+  firebase_admin.initialize_app(cred, {
+  'projectId': 'human-pokedex',
+  })
+  db = firestore.client()
+  users_ref = db.collection(u'New Users')
+  docs = users_ref.stream()
+
+  userName = ""
+
+  for doc in docs:
+    dict1 = doc.to_dict()
+    userName = dict1['Username']
+  
+  return userName
+
+
 # Function to blur the image
-def blurImage(imagePath):
+def blurImage(imagePath, userName, i):
     old_image = cv2.imread(imagePath)
     image = old_image.copy()
-    blurredImage = cv2.blur(image, (5, 5))
-    filename = "blurred_" + imagePath.split(os.path.sep)[-1] + ".jpg"
+    blurredImage = cv2.blur(image, (3, 3))
+    filename = "blurred_" + userName + "_" + str(i) + ".jpg"
+    os.chdir(r'/content/drive/MyDrive/Open Lab/Datasets 1/' + userName)
     cv2.imwrite(filename, blurredImage) 
 
+
 # Function to sharpen the image
-def sharpenImage(imagePath):
+def sharpenImage(imagePath, userName, i):
     old_image = cv2.imread(imagePath)
     image = old_image.copy()
     kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
     sharpImage = cv2.filter2D(image, -1, kernel)
-    filename = "sharpened_" + imagePath.split(os.path.sep)[-1] + ".jpg"
+    filename = "sharpened_" + userName + "_" + str(i) + ".jpg"
+    os.chdir(r'/content/drive/MyDrive/Open Lab/Datasets 1/' + userName)
     cv2.imwrite(filename, sharpImage)
 
+
 # Function to add Sepia effect 
-def sepiaImage(imagePath):
+def sepiaImage(imagePath, userName, i):
     old_image = cv2.imread(imagePath)
     image = old_image.copy()
     kernel = np.array([[0.272, 0.534, 0.131], [0.349, 0.686, 0.168], [0.393, 0.769, 0.189]])
     sepiaImage = cv2.filter2D(image, -1, kernel)
-    filename = "sepia_" + imagePath.split(os.path.sep)[-1] + ".jpg"
-    cv2.imwrite(filename, sharpImage)
+    filename = "sepia_" + userName +  "_" + str(i) + ".jpg"
+    os.chdir(r'/content/drive/MyDrive/Open Lab/Datasets 1/' + userName)
+    cv2.imwrite(filename, sepiaImage)
+
 
 # Function to add brightness
-def brightImage(imagePath):
+def brightImage(imagePath, userName, i):
     old_image = cv2.imread(imagePath)
     image = old_image.copy()
     brightImage = cv2.convertScaleAbs(image, 3)
-    filename = "bright_" + imagePath.split(os.path.sep)[-1] + ".jpg"
+    filename = "bright_" + userName +  "_" + str(i) + ".jpg"
+    os.chdir(r'/content/drive/MyDrive/Open Lab/Datasets 1/' + userName)
     cv2.imwrite(filename, brightImage)
 
+
 # Tilt image to certain angles
-def tiltedImage(imagePath):
+def tiltedImage(imagePath, userName):
     p = Augmentor.Pipeline(imagePath)
-    p.rotate(probability = 1, max_left_rotate = 15, max_right_rotate = 15)
+    p.rotate(1, 15, 15)
     old_image = cv2.imread(imagePath)
-    image = old_image.copy()
-    tilted_images, label = p.sample(10)
-    for i in range(len(tilted_images)):
-        filename = "tilted_" + imagePath.split(os.path.sep)[-1] + "_" + i + ".jpg"
-        cv2.imwrite(filename, tilted_images[i])
-    
+    # image = old_image.copy()
+    # tilted_images, label = p.sample(10)
+    # os.chdir(r'/content/drive/MyDrive/Open Lab/Datasets 1/' + userName)
+    # for i in range(len(tilted_images)):
+    #     filename = "tilted_" + userName + "_" + str(i) + ".jpg"
+    #     cv2.imwrite(filename, tilted_images[i])
+
+
 # Mirror image
-def mirrorImage(imagePath):
+def mirrorImage(imagePath, userName):
     p = Augmentor.Pipeline(imagePath)
     p.flip_left_right(probability = 1)
     old_image = cv2.imread(imagePath)
-    image = old_image.copy()
-    flipped_images, label = p.sample(1)
-    filename = "mirror_" + imagePath.split(os.path.sep)[-1] + ".jpg"
-    cv2.imwrite(filename, flipped_images[0])
+    # image = old_image.copy()
+    # flipped_images, label = p.sample(10)
+    # os.chdir(r'/content/drive/MyDrive/Open Lab/Datasets 1/' + userName)
+    # for i in range(len(flipped_images)):
+    #     filename = "flipped_" + userName + "_" + str(i) + ".jpg"
+    #     cv2.imwrite(filename, flipped_images[i])
+
 
 # Shearing image
-def shearImage(imagePath):
+def shearImage(imagePath, userName):
     p = Augmentor.Pipeline(imagePath)
-    p.shear(probability = 1, 15, 15)
+    p.shear(probability = 1, max_shear_left = 15, max_shear_right = 15)
     old_image = cv2.imread(imagePath)
-    image = old_image.copy()
-    sheared_images, label = p.sample(10)
-    for i in range(len(sheared_images)):
-        filename = "sheared_" + imagePath.split(os.path.sep)[-1] + "_" + i + ".jpg"
-        cv2.imwrite(filename, sheared_images[i])
+    # image = old_image.copy()
+    # sheared_images, label = p.sample(10)
+    # os.chdir(r'/content/drive/MyDrive/Open Lab/Datasets 1/' + userName)
+    # for i in range(len(sheared_images)):
+    #     filename = "sheared_" + userName + "_" + str(i) + ".jpg"
+    #     cv2.imwrite(filename, sheared_images[i])
+
 
 # Skewing image
-def skewedImage(imagePath):
+def skewedImage(imagePath, userName):
     p = Augmentor.Pipeline(imagePath)
     p.skew(probability = 1, magnitude = 0.7)
     old_image = cv2.imread(imagePath)
-    image = old_image.copy()
-    skewed_images, label = p.sample(10)
-    for i in range(len(skewed_images)):
-        filename = "skewed_" + imagePath.split(os.path.sep)[-1] + "_" + i + ".jpg"
-        cv2.imwrite(filename, skewed_images[i])
+    # image = old_image.copy()
+    # skewed_images, label = p.sample(10)
+    # os.chdir(r'/content/drive/MyDrive/Open Lab/Datasets 1/' + userName)
+    # for i in range(len(skewed_images)):
+    #     filename = "skewed_" + userName + "_" + str(i) + ".jpg"
+    #     cv2.imwrite(filename, skewed_images[i])
+
 
 # Black and White 
-def bwImage(imagePath):
+def bwImage(imagePath, userName):
     p = Augmentor.Pipeline(imagePath)
-    p.black_and_white(probability = 1, threshold = 256)
+    p.black_and_white(probability = 1, threshold = 255)
     old_image = cv2.imread(imagePath)
-    image = old_image.copy()
-    bwImages, label = p.sample(1)
-    for i in range(len(bwImages)):
-        filename = "bw_" + imagePath.split(os.path.sep)[-1] + ".jpg"
-        cv2.imwrite(filename, bwImages[0])
+    # image = old_image.copy()
+    # bwImages, label = p.process()
+    # os.chdir(r'/content/drive/MyDrive/Open Lab/Datasets 1/' + userName)
+    # for i in range(len(bwImages)):
+    #     filename = "bw_" + userName + "_" + str(i) + ".jpg"
+    #     cv2.imwrite(filename, bwImages[0])
+
+
+# Initialize pipeline
+def usePipeline(imagePath, userName):
+    p = Augmentor.Pipeline(imagePath)
+    p1 = Augmentor.Pipeline(imagePath)
+    p2 = Augmentor.Pipeline(imagePath)
+    p3 = Augmentor.Pipeline(imagePath)
+    p4 = Augmentor.Pipeline(imagePath)
+    
+    p.rotate(1, 15, 15)
+    p1.flip_left_right(probability = 1)
+    p2.shear(probability = 1, max_shear_left = 15, max_shear_right = 15)
+    p3.skew(probability = 1, magnitude = 0.7)
+    p4.black_and_white(probability = 1, threshold = 64)
+
+    p.sample(25)
+    p1.sample(25)
+    p2.sample(25)
+    p3.sample(25)
+    p4.sample(25)
