@@ -6,10 +6,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private TextInputEditText nameET, regNoET, classET, yearET, deptET, emailET, phoneET, passwordET;
+    private FirebaseFirestore db;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,5 +28,8 @@ public class SignUpActivity extends AppCompatActivity {
         deptET = findViewById(R.id.signupDeptET);
         phoneET = findViewById(R.id.signupPhoneET);
         passwordET = findViewById(R.id.signupPasswordET);
+
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
     }
 }
