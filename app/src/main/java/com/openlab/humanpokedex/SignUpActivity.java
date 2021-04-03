@@ -18,6 +18,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class SignUpActivity extends AppCompatActivity {
 
     private TextInputEditText nameET, regNoET, classET, yearET, deptET, emailET, phoneET, passwordET;
@@ -28,6 +32,7 @@ public class SignUpActivity extends AppCompatActivity {
     private TextView signupTV;
 
     private String emailID, password, name, regNo, className, year, dept, phone;
+    private Map<String, Object> userSignUp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +52,8 @@ public class SignUpActivity extends AppCompatActivity {
         signupProgress = findViewById(R.id.signupProgress);
         signupTV = findViewById(R.id.signupTV);
 
+        userSignUp = new HashMap();
+
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -59,12 +66,37 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void signUp() {
+        signUpBtn.setVisibility(View.GONE);
+        signupProgress.setVisibility(View.VISIBLE);
+        signupTV.setVisibility(View.VISIBLE);
         retrieveData();
+
+        userSignUp.put("Username", name);
+        userSignUp.put("RegNo", regNo);
+        userSignUp.put("Class", className);
+        userSignUp.put("Year", year);
+        userSignUp.put("Department", dept);
+        userSignUp.put("emailID", emailID);
+        userSignUp.put("phoneNo", phone);
+        userSignUp.put("password", password);
+
         firebaseAuth.createUserWithEmailAndPassword(emailID, password)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-
+                        db.collection("Users").document("Username " + regNo)
+                                .set(userSignUp).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(SignUpActivity.this, "Signed you up. Proceeding...", Toast.LENGTH_SHORT).show();
+                                updateUI();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
