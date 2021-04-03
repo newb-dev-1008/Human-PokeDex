@@ -1,14 +1,25 @@
 package com.openlab.humanpokedex;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.strictmode.CleartextNetworkViolation;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddDetailsActivity extends AppCompatActivity {
 
@@ -17,12 +28,17 @@ public class AddDetailsActivity extends AppCompatActivity {
     private ProgressBar registerProgress;
     private TextView registerTV;
 
-    private String emailID, name, className, year, dept, phone;
+    private FirebaseFirestore db;
+    private Map<String, Object> registerMap;
+
+    private String emailID, name, className, year, dept, phone, regNo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.extra_details);
+
+        regNo = getIntent().getStringExtra("regNo");
 
         nameET = findViewById(R.id.extraNameET);
         classET = findViewById(R.id.extraClassET);
@@ -34,7 +50,15 @@ public class AddDetailsActivity extends AppCompatActivity {
         registerProgress = findViewById(R.id.extraProgress);
         registerTV = findViewById(R.id.extraTV);
 
+        db = FirebaseFirestore.getInstance();
+        registerMap = new HashMap<>();
 
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerFace();
+            }
+        });
     }
 
     private void retrieveData() {
@@ -44,5 +68,37 @@ public class AddDetailsActivity extends AppCompatActivity {
         emailID = emailET.getText().toString().trim();
         dept = deptET.getText().toString().trim();
         phone = phoneET.getText().toString().trim();
+    }
+
+    private void registerFace() {
+        retrieveData();
+
+        registerMap.put("Username", name);
+        registerMap.put("RegNo", regNo);
+        registerMap.put("Class", className);
+        registerMap.put("Year", year);
+        registerMap.put("Department", dept);
+        registerMap.put("phoneNo", phone);
+
+        db.collection("RegisteredFaces").document("Username " + regNo).set(registerMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(AddDetailsActivity.this, "Registered face!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(AddDetailsActivity.this, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AddDetailsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AddDetailsActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 }

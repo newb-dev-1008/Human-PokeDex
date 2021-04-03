@@ -320,6 +320,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
                                         });
                                 Intent intent = new Intent(activity, AddDetailsActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                intent.putExtra("regNo", activity.name);
                                 activity.startActivity(intent);
                                 activity.finish();
                             }
