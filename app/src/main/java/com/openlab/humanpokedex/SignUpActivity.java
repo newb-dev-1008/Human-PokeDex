@@ -133,7 +133,11 @@ public class SignUpActivity extends AppCompatActivity {
                             });
 
                         } else {
-
+                            Intent intent = new Intent(SignUpActivity.this, RegisterFaceActivity.class);
+                            intent.putExtra("registeredFlag", 1);
+                            startActivity(intent);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            finish();
                         }
                     }
                 })
