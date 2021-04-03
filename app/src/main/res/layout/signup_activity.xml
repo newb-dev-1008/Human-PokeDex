@@ -107,6 +107,20 @@
             android:id="@+id/signupPhoneET"
             android:hint="Enter your Phone Number"/>
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/signupPhoneET"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:id="@+id/signupPasswordET"
+            android:hint="Enter your Password"/>
+
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -115,7 +129,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:id="@+id/loginPageSignInBtn"
             android:text="Sign In"
-            app:layout_constraintTop_toBottomOf="@id/signupPhoneET"
+            app:layout_constraintTop_toBottomOf="@id/signupPasswordET"
             android:layout_marginTop="25dp"
             android:layout_marginBottom="50dp"/>
 
