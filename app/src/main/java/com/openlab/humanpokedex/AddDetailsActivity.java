@@ -72,6 +72,9 @@ public class AddDetailsActivity extends AppCompatActivity {
 
     private void registerFace() {
         retrieveData();
+        registerBtn.setVisibility(View.GONE);
+        registerProgress.setVisibility(View.VISIBLE);
+        registerTV.setVisibility(View.VISIBLE);
 
         registerMap.put("Username", name);
         registerMap.put("RegNo", regNo);
