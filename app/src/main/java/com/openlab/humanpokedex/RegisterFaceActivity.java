@@ -61,7 +61,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
     private PreviewView registerPreview;
     private MaterialButton doneButton;
     private TextView instructionsText;
-    private int flag = 0, photoCount = 0, capturePic = 0;
+    private int flag = 0, photoCount = 0, capturePic = 0, registeredFlag = 0;
     private StorageReference storageReference;
     private ImageCapture imageCapture;
     private TextInputEditText registerFaceName;
@@ -76,6 +76,8 @@ public class RegisterFaceActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_face);
+
+        registeredFlag = getIntent().getIntExtra("registeredFlag", 0);
 
         registerPreview = findViewById(R.id.registerFacePreview);
         doneButton = findViewById(R.id.registerFaceDoneBtn);
@@ -297,24 +299,38 @@ public class RegisterFaceActivity extends AppCompatActivity {
             activity.name = activity.registerFaceName.getText().toString().trim();
 
             Map<String, Object> userMap = new HashMap<>();
-            userMap.put("Username", activity.name);
+            userMap.put("RegNo", activity.name);
 
-            activity.db.collection("Users").document("Username " + activity.name).set(userMap)
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-            activity.db.collection("New Users").document("Username " + activity.name).set(userMap)
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
+            if (activity.registeredFlag == 1) {
+                Intent intent = new Intent(activity, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                activity.startActivity(intent);
+                activity.finish();
+            } else {
+                activity.db.collection("RegisteredFaces").document("Username " + activity.name).set(userMap)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                activity.db.collection("New Users").document("Username " + activity.name).set(userMap)
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                Intent intent = new Intent(activity, AddDetailsActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                activity.startActivity(intent);
+                                activity.finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
         }
 
         @Override
@@ -324,7 +340,6 @@ public class RegisterFaceActivity extends AppCompatActivity {
             if (activity == null || activity.isFinishing()) {
                 return null;
             }
-
 
             StorageReference registerFacesRef = activity.storageReference.child("New Datasets/" + activity.name);
             ArrayList<Uri> passedArray = new ArrayList<>();
