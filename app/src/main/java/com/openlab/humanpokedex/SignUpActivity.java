@@ -2,10 +2,15 @@ package com.openlab.humanpokedex;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -19,6 +24,8 @@ public class SignUpActivity extends AppCompatActivity {
     private MaterialButton signUpBtn;
     private FirebaseFirestore db;
     private FirebaseAuth firebaseAuth;
+    private ProgressBar signupProgress;
+    private TextView signupTV;
 
     private String emailID, password, name, regNo, className, year, dept, phone;
 
@@ -36,6 +43,9 @@ public class SignUpActivity extends AppCompatActivity {
         phoneET = findViewById(R.id.signupPhoneET);
         passwordET = findViewById(R.id.signupPasswordET);
         signUpBtn = findViewById(R.id.signupSignUpBtn);
+
+        signupProgress = findViewById(R.id.signupProgress);
+        signupTV = findViewById(R.id.signupTV);
 
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -56,7 +66,12 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onSuccess(AuthResult authResult) {
 
                     }
-                })
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void updateUI() {
