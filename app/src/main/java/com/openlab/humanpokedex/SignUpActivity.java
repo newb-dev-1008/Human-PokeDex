@@ -1,5 +1,6 @@
 package com.openlab.humanpokedex;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -16,6 +17,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -107,7 +109,34 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
+        db.collection("RegisteredFaces").document("Username " + regNo).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()){
+                            String photoURL = documentSnapshot.get("photoStored").toString();
+                            db.collection("Users").document("Username " + regNo).update("photoStored", photoURL)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(SignUpActivity.this, "Face registered.", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+                                            startActivity(intent);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            finish();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(SignUpActivity.this, "An unexpected error has occurred. " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
+                        } else {
+
+                        }
+                    }
+                })
     }
 
     private void retrieveData() {
