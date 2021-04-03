@@ -17,6 +17,8 @@ public class AddDetailsActivity extends AppCompatActivity {
     private ProgressBar registerProgress;
     private TextView registerTV;
 
+    private String emailID, name, className, year, dept, phone;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,5 +33,16 @@ public class AddDetailsActivity extends AppCompatActivity {
         registerBtn = findViewById(R.id.extraRegisterBtn);
         registerProgress = findViewById(R.id.extraProgress);
         registerTV = findViewById(R.id.extraTV);
+
+
+    }
+
+    private void retrieveData() {
+        name = nameET.getText().toString().trim();
+        className = classET.getText().toString().trim();
+        year = yearET.getText().toString().trim();
+        emailID = emailET.getText().toString().trim();
+        dept = deptET.getText().toString().trim();
+        phone = phoneET.getText().toString().trim();
     }
 }
