@@ -26,13 +26,11 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.loader.content.AsyncTaskLoader;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.FirebaseError;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -40,9 +38,7 @@ import com.google.firebase.storage.UploadTask;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -115,7 +111,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 startCamera();
             } else {
                 Toast.makeText(this, "Permission not granted to start camera.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(RegisterFaceActivity.this, LoginActivity.class);
+                Intent intent = new Intent(RegisterFaceActivity.this, LoginSignUpActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
@@ -211,7 +207,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 capturePic = 1;
                 captureImagesPeriodically();
             case 4:
-                Intent intent = new Intent(RegisterFaceActivity.this, LoginActivity.class);
+                Intent intent = new Intent(RegisterFaceActivity.this, LoginSignUpActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
@@ -358,7 +354,7 @@ public class RegisterFaceActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(activity, LoginActivity.class);
+                        Intent intent = new Intent(activity, LoginSignUpActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         activity.startActivity(intent);

@@ -2,7 +2,6 @@ package com.openlab.humanpokedex;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.strictmode.CleartextNetworkViolation;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -88,7 +87,7 @@ public class AddDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(AddDetailsActivity.this, "Registered face!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(AddDetailsActivity.this, LoginActivity.class);
+                        Intent intent = new Intent(AddDetailsActivity.this, LoginSignUpActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
@@ -97,7 +96,7 @@ public class AddDetailsActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(AddDetailsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(AddDetailsActivity.this, LoginActivity.class);
+                Intent intent = new Intent(AddDetailsActivity.this, LoginSignUpActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();

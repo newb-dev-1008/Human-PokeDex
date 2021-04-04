@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginSignUpActivity extends AppCompatActivity {
 
     private MaterialButton signIn, signUp, recFace, regFace;
 
@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         signIn = findViewById(R.id.signInButton);
         signUp = findViewById(R.id.signUpButton);
         recFace = findViewById(R.id.recognizeFaceButton);
+        regFace = findViewById(R.id.registerFaceButton);
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +54,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void signIn() {
-
+        Intent intent = new Intent(LoginSignUpActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 
     private void signUp() {
@@ -65,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void registerFace() {
-        Intent intent = new Intent(LoginActivity.this, RegisterFaceActivity.class);
+        Intent intent = new Intent(LoginSignUpActivity.this, RegisterFaceActivity.class);
         startActivity(intent);
     }
 }
