@@ -59,11 +59,13 @@ public class LoginSignUpActivity extends AppCompatActivity {
     }
 
     private void signUp() {
-
+        Intent intent = new Intent(LoginSignUpActivity.this, SignUpActivity.class);
+        startActivity(intent);
     }
 
     private void recognizeFace() {
-
+        Intent intent = new Intent(LoginSignUpActivity.this, RecognizeFaceActivity.class);
+        startActivity(intent);
     }
 
     private void registerFace() {
