@@ -11,31 +11,32 @@ import math
 
 # -------------------------------------- Main ---------------------------------------------
 
-imagePaths = list(paths.list_images(r"/content/drive/MyDrive/Open Lab/New Datasets 1"))
+def mainAugment():
+    imagePaths = list(paths.list_images(r"/content/drive/MyDrive/Open Lab/New Datasets 1"))
 
-name = firestoreName()
-os.mkdir(r'/content/drive/MyDrive/Open Lab/Datasets 1/' + name)
-imgPath = "/content/drive/MyDrive/Open Lab/New Datasets 1/" + name
-count = 0
+    name = firestoreName()
+    os.mkdir(r'/content/drive/MyDrive/Open Lab/Datasets 1/' + name)
+    imgPath = "/content/drive/MyDrive/Open Lab/New Datasets 1/" + name
+    count = 0
 
-for imagePath in imagePaths:
+    for imagePath in imagePaths:
 
-    # Perform data augmentation
-    
-    blurImage(imagePath, name, count)
-    sharpenImage(imagePath, name, count)
-    sepiaImage(imagePath, name, count)
-    brightImage(imagePath, name, count)
+        # Perform data augmentation
+        
+        blurImage(imagePath, name, count)
+        sharpenImage(imagePath, name, count)
+        sepiaImage(imagePath, name, count)
+        brightImage(imagePath, name, count)
 
-    count += 1
-    
-usePipeline(imgPath, name)
+        count += 1
+        
+    usePipeline(imgPath, name)
 
-print("\nDone with all images.\n")
+    print("\nDone with all images.\n")
 
-destination = '/content/drive/MyDrive/Open Lab/Datasets 1/' + name
-movePhotos(destination, name)
-print('\nDeleted new datasets after moving.\n')
+    destination = '/content/drive/MyDrive/Open Lab/Datasets 1/' + name
+    movePhotos(destination, name)
+    print('\nDeleted new datasets after moving.\n')
 
 
 # ---------------------------- Functions for data augmentation ----------------------------
