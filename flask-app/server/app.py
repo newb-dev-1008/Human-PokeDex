@@ -1,6 +1,7 @@
 from flask import Flask
 import os
-from 
+from pythonfiles.augment_data import *
+from pythonfiles.extract_embeddings import *
 
 app = Flask(__name__)
 @app.route('/')
