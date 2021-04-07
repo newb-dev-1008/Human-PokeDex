@@ -78,7 +78,12 @@ public class SplashScreenActivity extends AppCompatActivity {
                                 finish();
                             }
                         }
-                    })
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(SplashScreenActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
         } else {
             Intent intent = new Intent(SplashScreenActivity.this, LoginSignUpActivity.class);
