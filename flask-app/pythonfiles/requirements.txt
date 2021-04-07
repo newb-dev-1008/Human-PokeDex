@@ -18,3 +18,7 @@ urllib3==1.24.3
 torch==1.8.1+cu101
 imutils==0.5.4
 Augmentor==0.2.8
+google-api-python-client==1.12.8
+google-auth-httplib2==0.0.4
+google-auth-oauthlib==0.4.3
+Pyrebase==3.0.27
