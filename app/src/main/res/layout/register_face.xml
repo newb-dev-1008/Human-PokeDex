@@ -30,14 +30,14 @@
         android:layout_marginEnd="25dp"/>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/registerFaceBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/registerFaceNameET"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp"
+        android:text="Register face"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="25dp"
-        android:id="@+id/registerFaceBtn"
-        android:text="Register face"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/registerFaceNameET" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
