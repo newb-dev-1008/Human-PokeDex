@@ -17,7 +17,7 @@ public class ClassStudents {
         return regNo;
     }
 
-    public String getName() {
+    public String getStudentName() {
         return name;
     }
 
