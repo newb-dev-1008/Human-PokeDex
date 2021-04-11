@@ -2,11 +2,14 @@ package com.openlab.humanpokedex;
 
 import android.graphics.Bitmap;
 
+import java.net.URL;
+
 public class ClassStudents {
 
-    private String regNo, name, className, photosURL;
+    private String regNo, name, className;
+    private URL photosURL;
 
-    public ClassStudents(String regNo, String name, String className, String photosURL) {
+    public ClassStudents(String regNo, String name, String className, URL photosURL) {
         this.regNo = regNo;
         this.name = name;
         this.className = className;
@@ -25,7 +28,7 @@ public class ClassStudents {
         return className;
     }
 
-    public String getPhotosURL() {
+    public URL getPhotosURL() {
         return photosURL;
     }
 }
