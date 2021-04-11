@@ -30,5 +30,13 @@ public class StudentsClassActivity extends AppCompatActivity {
         classnameTV = findViewById(R.id.classNameTV);
         recyclerView = findViewById(R.id.class_studentsRecycler);
         classStudents = new ArrayList<ClassStudents>();
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                showStudents();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 }

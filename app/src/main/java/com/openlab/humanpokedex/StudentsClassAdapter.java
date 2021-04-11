@@ -36,11 +36,12 @@ import java.util.List;
 public class StudentsClassAdapter extends RecyclerView.Adapter<StudentsClassAdapter.StudentsClassViewHolder> {
 
     private ArrayList<ClassStudents> ClassStudents;
-    private String name, className, regNo, photosURL;
+    private String name, className, regNo;
     private Context context;
     private FirebaseFirestore db;
     private FirebaseStorage storage;
-    private URL photoStored;
+    private URL photosURL;
+    // private URL photoStored;
 
     public StudentsClassAdapter(ArrayList<ClassStudents> classStudents) {
         ClassStudents = classStudents;
@@ -84,6 +85,7 @@ public class StudentsClassAdapter extends RecyclerView.Adapter<StudentsClassAdap
         holder.nameTV.setText(name);
 
         db = FirebaseFirestore.getInstance();
+        /*
         db.collection("Users").document("Username " + regNo).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
@@ -97,8 +99,9 @@ public class StudentsClassAdapter extends RecyclerView.Adapter<StudentsClassAdap
                         }
                     }
                 });
+        */
 
-        StorageReference storageRef = storage.getReferenceFromUrl(photoStored.toString());
+        StorageReference storageRef = storage.getReferenceFromUrl(photosURL.toString());
         storageRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
             @Override
             public void onSuccess(ListResult listResult) {
