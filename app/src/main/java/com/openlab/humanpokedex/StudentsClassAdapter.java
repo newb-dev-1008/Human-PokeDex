@@ -5,27 +5,47 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class StudentsClassAdapter extends RecyclerView.Adapter<StudentsClassAdapter.StudentsClassViewHolder> {
 
     private ArrayList<ClassStudents> ClassStudents;
     private String name, className, regNo, photosURL;
     private Context context;
+    private FirebaseFirestore db;
+    private FirebaseStorage storage;
+    private URL photoStored;
 
     public StudentsClassAdapter(ArrayList<ClassStudents> classStudents) {
         ClassStudents = classStudents;
+        storage = FirebaseStorage.getInstance();
+        db = FirebaseFirestore.getInstance();
     }
 
     @NonNull
@@ -58,10 +78,37 @@ public class StudentsClassAdapter extends RecyclerView.Adapter<StudentsClassAdap
         ClassStudents classStudent = ClassStudents.get(position);
 
         name = classStudent.getStudentName();
+        regNo = classStudent.getRegNo();
         photosURL = classStudent.getPhotosURL();
 
         holder.nameTV.setText(name);
-        holder.photo.setImageBitmap();
+
+        db = FirebaseFirestore.getInstance();
+        db.collection("Users").document("Username " + regNo).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        String s = documentSnapshot.get("photoStored").toString();
+                        try {
+                            URI uri = new URI(s);
+                            photoStored = uri.toURL();
+                        } catch (URISyntaxException | MalformedURLException e) {
+                            Toast.makeText(context, "String cannot be parsed to URI.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+        StorageReference storageRef = storage.getReferenceFromUrl(photoStored.toString());
+        storageRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+            @Override
+            public void onSuccess(ListResult listResult) {
+                List<StorageReference> listItems = listResult.getItems();
+                StorageReference realRef = listItems.get(0);
+
+                Glide.with(context).load(realRef).into(holder.photo);
+            }
+        });
+
     }
 
     @Override
