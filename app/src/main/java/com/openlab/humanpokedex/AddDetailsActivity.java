@@ -87,6 +87,12 @@ public class AddDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(AddDetailsActivity.this, "Registered face!", Toast.LENGTH_SHORT).show();
+
+                        db.collection("Campus").document("Department " + dept)
+                                .collection("Class " + className).document("Username " + regNo).set(registerMap);
+
+                        registerProgress.setVisibility(View.GONE);
+                        Toast.makeText(AddDetailsActivity.this, "Done adding details.", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(AddDetailsActivity.this, LoginSignUpActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
