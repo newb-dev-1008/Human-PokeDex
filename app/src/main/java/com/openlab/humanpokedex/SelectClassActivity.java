@@ -147,6 +147,16 @@ public class SelectClassActivity extends AppCompatActivity {
     }
 
     private void showClassSpinner() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, classes);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        classSpinner.setAdapter(adapter);
 
+        classSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                classSelected = parent.getSelectedItem().toString();
+                selectClassBtn.setVisibility(View.VISIBLE);
+            }
+        });
     }
 }
