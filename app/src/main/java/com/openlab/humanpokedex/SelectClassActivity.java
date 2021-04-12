@@ -107,11 +107,10 @@ public class SelectClassActivity extends AppCompatActivity {
                 });
             }
         });
-
     }
 
     private void showDeptSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, depts);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         deptSpinner.setAdapter(adapter);
 
@@ -121,6 +120,28 @@ public class SelectClassActivity extends AppCompatActivity {
                 deptSelected = parent.getSelectedItem().toString();
                 progressBar.setVisibility(View.VISIBLE);
                 classSpinnerBackground();
+            }
+        });
+    }
+
+    private void classSpinnerBackground() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                db.collection("CampusInfo").document(yearSelected).collection("Departments")
+                        .document(deptSelected).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                classes = (ArrayList<String>) documentSnapshot.get("Classes");
+                            }
+                        });
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                        showClassSpinner();
+                    }
+                });
             }
         });
     }
