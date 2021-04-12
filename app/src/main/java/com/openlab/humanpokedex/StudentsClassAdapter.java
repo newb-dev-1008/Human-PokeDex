@@ -60,7 +60,7 @@ public class StudentsClassAdapter extends RecyclerView.Adapter<StudentsClassAdap
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), StudentOpenCardActivity.class);
-                String transitionName = view.getResources().getString(R.string.card_open_transition);
+                String transitionName = view.getResources().getString(R.string.transitionAnimation);
                 View viewStart = view.findViewById(R.id.student_cardview);
 
                 intent.putExtra("regNo", regNo);
