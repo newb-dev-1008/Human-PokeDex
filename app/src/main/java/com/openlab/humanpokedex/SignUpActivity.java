@@ -91,6 +91,8 @@ public class SignUpActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(SignUpActivity.this, "Signed you up. Proceeding...", Toast.LENGTH_SHORT).show();
+                                db.collection("Campus").document("Department " + dept)
+                                        .collection("Class " + className).document("Username " + regNo).set(userSignUp);
                                 updateUI();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
