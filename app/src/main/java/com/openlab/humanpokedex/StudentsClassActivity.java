@@ -2,6 +2,7 @@ package com.openlab.humanpokedex;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class StudentsClassActivity extends AppCompatActivity {
     private ArrayList<ClassStudents> classStudents;
     private RecyclerView recyclerView;
     private String className, dept;
+    private ProgressBar progressBar;
 
     // private RecyclerView.LayoutManager classStudentsLayoutManager;
     private RecyclerView.Adapter classStudentsAdapter;
@@ -50,8 +52,10 @@ public class StudentsClassActivity extends AppCompatActivity {
         classnameTV = findViewById(R.id.classNameTV);
         recyclerView = findViewById(R.id.class_studentsRecycler);
         classStudents = new ArrayList<ClassStudents>();
+        progressBar = findViewById(R.id.class_studentsProgress);
 
         classnameTV.setText(className);
+        showStudents();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -63,6 +67,22 @@ public class StudentsClassActivity extends AppCompatActivity {
     }
 
     private void showStudents() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                backgroundDBRetrieve();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.VISIBLE);
+                        runUIThread();
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void backgroundDBRetrieve() {
         db.collection("Campus").document("Department " + dept)
                 .collection("Class " + className).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -85,18 +105,6 @@ public class StudentsClassActivity extends AppCompatActivity {
 
                     }
                 }
-
-                if (classStudents.size() == 0) {
-                    classnameTV.setText("Empty Class.");
-                } else {
-                    GridLayoutManager classStudentsLayoutManager = new GridLayoutManager(StudentsClassActivity.this, 3);
-                    classStudentsAdapter = new StudentsClassAdapter(classStudents);
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setLayoutManager(classStudentsLayoutManager);
-                    recyclerView.setAdapter(classStudentsAdapter);
-                    // swipeDownRefreshTV.setVisibility(View.GONE);
-                }
-
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -104,5 +112,18 @@ public class StudentsClassActivity extends AppCompatActivity {
                 Toast.makeText(StudentsClassActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void runUIThread() {
+        if (classStudents.size() == 0) {
+            classnameTV.setText("Empty Class.");
+        } else {
+            GridLayoutManager classStudentsLayoutManager = new GridLayoutManager(StudentsClassActivity.this, 3);
+            classStudentsAdapter = new StudentsClassAdapter(classStudents);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(classStudentsLayoutManager);
+            recyclerView.setAdapter(classStudentsAdapter);
+            // swipeDownRefreshTV.setVisibility(View.GONE);
+        }
     }
 }
