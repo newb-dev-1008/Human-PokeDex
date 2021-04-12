@@ -106,12 +106,23 @@ public class SelectClassActivity extends AppCompatActivity {
                     }
                 });
             }
-        })
+        });
 
     }
 
     private void showDeptSpinner() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        deptSpinner.setAdapter(adapter);
 
+        deptSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                deptSelected = parent.getSelectedItem().toString();
+                progressBar.setVisibility(View.VISIBLE);
+                classSpinnerBackground();
+            }
+        });
     }
 
     private void showClassSpinner() {
