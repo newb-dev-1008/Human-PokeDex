@@ -40,6 +40,27 @@
         android:layout_marginTop="25dp"
         android:id="@+id/selectClassDeptSpinner"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Year of study"
+        android:id="@+id/selectClassYear"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selectClassDeptSpinner"
+        android:layout_marginTop="30dp"
+        android:textSize="20sp"
+        android:layout_marginStart="25dp"/>
 
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/selectClassYear"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginTop="25dp"
+        android:id="@+id/selectClassYearSpinner"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
