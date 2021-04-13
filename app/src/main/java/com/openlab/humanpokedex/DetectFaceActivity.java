@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.mlkit.vision.face.FaceDetectorOptions;
+
 public class DetectFaceActivity extends AppCompatActivity {
 
     private FaceDetector faceDetector;
@@ -14,6 +16,9 @@ public class DetectFaceActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        FaceDetectorOptions options =
+                new FaceDetectorOptions.Builder().setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
+                .setContourMode(FaceDetectorOptions.LANDMARK_MODE_NONE).setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_NONE)
+                .build();
     }
 }
