@@ -44,6 +44,14 @@ public class SelectClassActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
+        selectClassBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Finish this
+                // Also set visibilities of yearTV etc
+            }
+        });
+
         new Thread(new Runnable() {
             @Override
             public void run() {
