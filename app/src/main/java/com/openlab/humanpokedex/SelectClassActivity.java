@@ -1,6 +1,8 @@
 package com.openlab.humanpokedex;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.service.quickaccesswallet.SelectWalletCardRequest;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,6 +40,10 @@ public class SelectClassActivity extends AppCompatActivity {
         classSpinner = findViewById(R.id.selectClassClassSpinner);
         selectClassBtn = findViewById(R.id.selectClassButton);
 
+        yearTV = findViewById(R.id.selectClassYear);
+        deptTV = findViewById(R.id.selectClassDept);
+        classTV = findViewById(R.id.selectClassClass);
+
         years = new ArrayList<>();
         depts = new ArrayList<>();
         classes = new ArrayList<>();
@@ -48,7 +54,11 @@ public class SelectClassActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Finish this
-                // Also set visibilities of yearTV etc
+                Intent intent = new Intent(SelectClassActivity.this, StudentsClassActivity.class);
+                intent.putExtra("className", classSelected);
+                intent.putExtra("year", yearSelected);
+                intent.putExtra("dept", deptSelected);
+                startActivity(intent);
             }
         });
 
@@ -71,6 +81,7 @@ public class SelectClassActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.GONE);
+                        yearTV.setVisibility(View.VISIBLE);
                         showYearSpinner();
                     }
                 });
@@ -110,6 +121,7 @@ public class SelectClassActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.GONE);
+                        deptTV.setVisibility(View.VISIBLE);
                         showDeptSpinner();
                     }
                 });
@@ -147,6 +159,7 @@ public class SelectClassActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.GONE);
+                        classTV.setVisibility(View.VISIBLE);
                         showClassSpinner();
                     }
                 });
