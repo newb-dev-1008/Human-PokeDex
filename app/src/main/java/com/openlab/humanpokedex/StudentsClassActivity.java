@@ -33,7 +33,7 @@ public class StudentsClassActivity extends AppCompatActivity {
     private TextView classnameTV;
     private ArrayList<ClassStudents> classStudents;
     private RecyclerView recyclerView;
-    private String className, dept;
+    private String className, dept, year;
     private ProgressBar progressBar;
 
     // private RecyclerView.LayoutManager classStudentsLayoutManager;
@@ -46,6 +46,7 @@ public class StudentsClassActivity extends AppCompatActivity {
 
         className = getIntent().getStringExtra("className");
         dept = getIntent().getStringExtra("dept");
+        year = getIntent().getStringExtra("year");
 
         db = FirebaseFirestore.getInstance();
         swipeRefreshLayout = findViewById(R.id.swipeRefreshClassStudents);
@@ -83,7 +84,7 @@ public class StudentsClassActivity extends AppCompatActivity {
     }
 
     private void backgroundDBRetrieve() {
-        db.collection("Campus").document("Department " + dept)
+        db.collection("CampusInfo").document(year).collection("Departments").document(dept)
                 .collection("Class " + className).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {

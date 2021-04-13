@@ -88,7 +88,7 @@ public class AddDetailsActivity extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(AddDetailsActivity.this, "Registered face!", Toast.LENGTH_SHORT).show();
 
-                        db.collection("Campus").document("Department " + dept)
+                        db.collection("CampusInfo").document(year).collection("Departments").document(dept)
                                 .collection("Class " + className).document("Username " + regNo).set(registerMap);
 
                         registerProgress.setVisibility(View.GONE);
