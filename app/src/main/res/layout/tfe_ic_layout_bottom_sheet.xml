@@ -17,8 +17,29 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="30dp"
         android:id="@+id/bottomSheetTV"
-        android:text="Top 3 matches"
-        android:fontFamily="sans-serif-black"/>
+        android:text="Top face matches"
+        android:fontFamily="sans-serif-black"
+        android:textSize="28sp"
+        android:textColor="@color/black"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageRecycler"
+        app:layout_constraintTop_toBottomOf="@id/bottomSheetTV"
+        android:layout_marginTop="45dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:background="@color/browser_actions_bg_grey"/>
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageRecycler"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_marginTop="25dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
