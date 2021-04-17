@@ -17,6 +17,7 @@ import org.tensorflow.lite.support.image.TensorImage;
 import org.tensorflow.lite.support.image.ops.ResizeOp;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
@@ -31,7 +32,7 @@ public class FaceNetModel {
     private ImageProcessor imageTensorProcessor = new ImageProcessor.Builder().add(new ResizeOp(imgSize, imgSize, ResizeOp.ResizeMethod.BILINEAR))
             .add(new NormalizeOp(127.5f, 127.5f)).build();
 
-    FaceNetModel(Context context) {
+    public FaceNetModel(Context context) {
         Interpreter.Options interpreterOptions = new Interpreter.Options().setNumThreads(4);
         interpreter = new Interpreter(FileUtil.loadMappedFile(context, ""), interpreterOptions);
     }
@@ -83,7 +84,7 @@ public class FaceNetModel {
         return croppedBitmap;
     }
 
-    private void saveBitmap(Bitmap image, String name) {
+    private void saveBitmap(Bitmap image, String name) throws FileNotFoundException {
         FileOutputStream fileOutputStream = new FileOutputStream(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + name + ".jpg"));
         image.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
     }
