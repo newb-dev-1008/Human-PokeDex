@@ -2,6 +2,7 @@ package com.openlab.humanpokedex;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.media.Image;
 import android.os.Environment;
@@ -85,5 +86,12 @@ public class FaceNetModel {
     private void saveBitmap(Bitmap image, String name) {
         FileOutputStream fileOutputStream = new FileOutputStream(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + name + ".jpg"));
         image.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+    }
+
+    private Bitmap rotateBitmap(Bitmap source, Float degrees) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degrees);
+
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, false);
     }
 }
