@@ -7,7 +7,7 @@
     android:id="@+id/bottom_sheet_layout"
     android:padding="8dp"
     app:behavior_hideable="true"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+    app:layout_behavior="@string/bottom_sheet_behavior">
 
     <TextView
         android:layout_width="wrap_content"
