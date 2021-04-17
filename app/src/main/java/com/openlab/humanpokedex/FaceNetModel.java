@@ -33,7 +33,7 @@ public class FaceNetModel {
     }
 
     private ArrayList<Float> getFaceEmbedding(Bitmap image , Rect crop, Boolean preRotate, Boolean isRearCameraOn) {
-        return runFaceNet(convertBitmapToBuffer(cropRectFromBitmap(image, crop, preRotate, isRearCameraOn )))[0];
+        return runFaceNet(convertBitmapToBuffer(cropRectFromBitmap(image, crop, preRotate, isRearCameraOn)));
     }
 
     private ArrayList<Float> runFaceNet(ByteBuffer buffer) {
@@ -46,5 +46,36 @@ public class FaceNetModel {
     private ByteBuffer convertBitmapToBuffer(Bitmap image) {
         TensorImage imageTensor = imageTensorProcessor.process(TensorImage.fromBitmap(image));
         return imageTensor.getBuffer();
+    }
+
+    private Bitmap cropRectFromBitmap(Bitmap source, Rect rect, Boolean preRotate, Boolean isRearCameraOn) {
+        Bitmap croppedBitmap;
+        int width = rect.width();
+        int height = rect.height();
+
+        if ((rect.left + width) > source.getWidth()){
+            width = (source.getWidth() - rect.left);
+        }
+
+        if ((rect.top + height) > source.getHeight()){
+            height = (source.getHeight() - rect.top);
+        }
+
+        if (preRotate) {
+            croppedBitmap = Bitmap.createBitmap(rotateBitmap(source, -90f));
+        } else {
+            croppedBitmap = Bitmap.createBitmap(source, rect.left, rect.top, width, height);
+        }
+
+        // Add a 180 degrees rotation if the rear camera is on.
+        if (isRearCameraOn) {
+            croppedBitmap = rotateBitmap(croppedBitmap, 180f);
+        }
+
+        // Uncomment the below line if you want to save the input image.
+        // Make sure the app has the `WRITE_EXTERNAL_STORAGE` permission.
+        //saveBitmap( croppedBitmap , "image")
+
+        return croppedBitmap;
     }
 }
