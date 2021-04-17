@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.media.Image;
+import android.os.Environment;
 import android.text.format.Time;
 
 import org.tensorflow.lite.Interpreter;
@@ -14,6 +15,8 @@ import org.tensorflow.lite.support.image.ImageProcessor;
 import org.tensorflow.lite.support.image.TensorImage;
 import org.tensorflow.lite.support.image.ops.ResizeOp;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.text.Normalizer;
@@ -77,5 +80,10 @@ public class FaceNetModel {
         //saveBitmap( croppedBitmap , "image")
 
         return croppedBitmap;
+    }
+
+    private void saveBitmap(Bitmap image, String name) {
+        FileOutputStream fileOutputStream = new FileOutputStream(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + name + ".jpg"));
+        image.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
     }
 }
