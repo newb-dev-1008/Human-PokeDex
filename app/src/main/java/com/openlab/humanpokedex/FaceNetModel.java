@@ -1,6 +1,8 @@
 package com.openlab.humanpokedex;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Rect;
 
 import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.support.common.FileUtil;
@@ -10,6 +12,7 @@ import org.tensorflow.lite.support.image.ImageProcessor;
 import org.tensorflow.lite.support.image.ops.ResizeOp;
 
 import java.text.Normalizer;
+import java.util.ArrayList;
 
 public class FaceNetModel {
 
@@ -24,5 +27,7 @@ public class FaceNetModel {
         interpreter = new Interpreter(FileUtil.loadMappedFile(context, ""), interpreterOptions);
     }
 
+    private ArrayList<Float> getFaceEmbedding(Bitmap image , Rect crop, Boolean preRotate, Boolean isRearCameraOn) {
 
+    }
 }
