@@ -3,6 +3,7 @@ package com.openlab.humanpokedex;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.media.Image;
 import android.text.format.Time;
 
 import org.tensorflow.lite.Interpreter;
@@ -10,6 +11,7 @@ import org.tensorflow.lite.support.common.FileUtil;
 import org.tensorflow.lite.support.common.TensorProcessor;
 import org.tensorflow.lite.support.common.ops.NormalizeOp;
 import org.tensorflow.lite.support.image.ImageProcessor;
+import org.tensorflow.lite.support.image.TensorImage;
 import org.tensorflow.lite.support.image.ops.ResizeOp;
 
 import java.nio.Buffer;
@@ -41,5 +43,8 @@ public class FaceNetModel {
         return output;
     }
 
-    private
+    private ByteBuffer convertBitmapToBuffer(Bitmap image) {
+        TensorImage imageTensor = imageTensorProcessor.process(TensorImage.fromBitmap(image));
+        return imageTensor.getBuffer();
+    }
 }
