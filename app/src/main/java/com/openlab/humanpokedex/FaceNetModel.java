@@ -28,6 +28,6 @@ public class FaceNetModel {
     }
 
     private ArrayList<Float> getFaceEmbedding(Bitmap image , Rect crop, Boolean preRotate, Boolean isRearCameraOn) {
-
+        return runFaceNet(convertBitmapToBuffer(cropRectFromBitmap(image, crop, preRotate, isRearCameraOn )))[0];
     }
 }
