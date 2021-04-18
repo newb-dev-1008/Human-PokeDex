@@ -1,6 +1,7 @@
     package com.openlab.humanpokedex;
 
 import android.content.Context;
+import android.gesture.Prediction;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.util.Pair;
@@ -12,14 +13,21 @@ import androidx.camera.core.ImageProxy;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.gson.JsonParser;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.face.Face;
 import com.google.mlkit.vision.face.FaceDetection;
 import com.google.mlkit.vision.face.FaceDetector;
 import com.google.mlkit.vision.face.FaceDetectorOptions;
 
+import org.json.JSONArray;
+
+import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class FrameAnalyser implements ImageAnalysis.Analyzer {
@@ -31,6 +39,7 @@ public class FrameAnalyser implements ImageAnalysis.Analyzer {
     private FaceNetModel faceNetModel;
     private String metricToBeUsed;
     private Context getContext;
+    private FaceNetModel model;
 
     public FrameAnalyser(Context context, BoundingBoxOverlay boundingBoxOverlay) {
         faceList = new ArrayList<>();
@@ -39,6 +48,7 @@ public class FrameAnalyser implements ImageAnalysis.Analyzer {
         metricToBeUsed = "l2";
         detector = FaceDetection.getClient(realTimeOpts);
         getContext = context;
+        model = FaceNetModel(context);
     }
 
     @Override
@@ -70,4 +80,20 @@ public class FrameAnalyser implements ImageAnalysis.Analyzer {
         }
     }
 
+    private void runModel(List<Face> faces, Bitmap cameraFrameBitmap) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                File file = new File(getContext.getFilesDir(), "faceList.txt");
+                JsonParser
+                ArrayList<Prediction> predictions = new ArrayList<>();
+                for (Face face : faces) {
+                    try {
+                        String subject = model.getFaceEmbedding(cameraFrameBitmap, face.getBoundingBox(), true, RecognizeFaceActivity.isRearCameraOn());
+                        Map<String, ArrayList<Float>> nameScoreHashMap = new ArrayList<>();
+                    }
+                }
+            }
+        })
+    }
 }
