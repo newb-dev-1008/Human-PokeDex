@@ -22,12 +22,25 @@ import com.google.mlkit.vision.face.FaceDetector;
 import com.google.mlkit.vision.face.FaceDetectorOptions;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class FrameAnalyser implements ImageAnalysis.Analyzer {
@@ -84,6 +97,41 @@ public class FrameAnalyser implements ImageAnalysis.Analyzer {
         new Thread(new Runnable() {
             @Override
             public void run() {
+
+                String json = null;
+                String path = getContext.getFilesDir() + "faceList.txt";
+                try {
+                    InputStream is = new FileInputStream(path);
+                    int size = is.available();
+                    byte[] buffer = new byte[size];
+
+                    is.read(buffer);
+
+                    is.close();
+
+                    json = new String(buffer, "UTF-8");
+                } catch (FileNotFoundException e) {
+                    Toast.makeText(getContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    JSONObject obj = new JSONObject(json);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                ArrayList<String> result = new ArrayList<>();
+                try {
+                    Scanner s = new Scanner(new FileReader(getContext.getFilesDir() + "faceList.txt"));
+                    while (s.hasNext()) {
+                        result.add(s.nextLine())
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 File file = new File(getContext.getFilesDir(), "faceList.txt");
                 JsonParser
                 ArrayList<Prediction> predictions = new ArrayList<>();
