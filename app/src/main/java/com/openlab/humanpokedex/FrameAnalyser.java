@@ -38,6 +38,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -118,27 +120,34 @@ public class FrameAnalyser implements ImageAnalysis.Analyzer {
                     e.printStackTrace();
                 }
 
+                ArrayList<Pair<String, ArrayList<Float>>> faceList = new ArrayList<>();
+
                 try {
                     JSONObject obj = new JSONObject(json);
+                    Iterator<String> it = obj.keys();
+                    while (it.hasNext()) {
+                        JSONObject temp = obj.getJSONObject(it.next());
+                        String name1 = temp.getString("name");
+                        JSONArray array = temp.getJSONArray("embeds");
+
+                        ArrayList<Float> embeds = new ArrayList<>();
+                        for (int i = 0; i < array.length(); i++) {
+                            Float dec = (Float) array.get(i);
+                            embeds.add(dec);
+                        }
+
+                        Pair<String, ArrayList<Float>> pair = new Pair<>(name1, embeds);
+                        faceList.add(pair);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                ArrayList<String> result = new ArrayList<>();
-                try {
-                    Scanner s = new Scanner(new FileReader(getContext.getFilesDir() + "faceList.txt"));
-                    while (s.hasNext()) {
-                        result.add(s.nextLine())
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                File file = new File(getContext.getFilesDir(), "faceList.txt");
-                JsonParser
+
                 ArrayList<Prediction> predictions = new ArrayList<>();
                 for (Face face : faces) {
                     try {
                         String subject = model.getFaceEmbedding(cameraFrameBitmap, face.getBoundingBox(), true, RecognizeFaceActivity.isRearCameraOn());
-                        Map<String, ArrayList<Float>> nameScoreHashMap = new ArrayList<>();
+                        Map<String, ArrayList<Float>> nameScoreHashMap = new HashMap<>();
                     }
                 }
             }
