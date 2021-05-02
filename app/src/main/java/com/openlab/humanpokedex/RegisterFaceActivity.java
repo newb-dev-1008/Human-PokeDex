@@ -339,9 +339,14 @@ public class RegisterFaceActivity extends AppCompatActivity {
             }
 
             StorageReference registerFacesRef = activity.storageReference.child("New Datasets/" + activity.name);
+            StorageReference photoFacesRef = activity.storageReference.child("Photos/" + activity.name);
             ArrayList<Uri> passedArray = new ArrayList<>();
             passedArray = Uris[0];
             for (int i = 0; i < Uris.length; i++) {
+                if (i < 4) {
+                    capturedImageUri = passedArray.get(i);
+                    UploadTask uploadTask = photoFacesRef.putFile(capturedImageUri);
+                }
                 capturedImageUri = passedArray.get(i);
                 UploadTask uploadTask = registerFacesRef.putFile(capturedImageUri);
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

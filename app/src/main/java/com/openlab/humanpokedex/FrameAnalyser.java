@@ -148,6 +148,12 @@ public class FrameAnalyser implements ImageAnalysis.Analyzer {
                     try {
                         String subject = model.getFaceEmbedding(cameraFrameBitmap, face.getBoundingBox(), true, RecognizeFaceActivity.isRearCameraOn());
                         Map<String, ArrayList<Float>> nameScoreHashMap = new HashMap<>();
+
+                        for (int no = 0; no < faceList.size(); no++) {
+                            if (nameScoreHashMap[faceList.get(no).first] == null) {
+
+                            }
+                        }
                     }
                 }
             }
