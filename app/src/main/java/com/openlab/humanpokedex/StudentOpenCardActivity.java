@@ -1,5 +1,6 @@
 package com.openlab.humanpokedex;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -115,10 +116,12 @@ public class StudentOpenCardActivity extends AppCompatActivity {
     }
 
     private void viewComplaintLog() {
-        // Finish this
+        Intent intent = new Intent(StudentOpenCardActivity.this, ComplaintLogActivity.class);
+        startActivity(intent);
     }
 
     private void viewTrackerLog() {
-        // Finish this
+        Intent intent = new Intent(StudentOpenCardActivity.this, StudentTrackerLogActivity.class);
+        startActivity(intent);
     }
 }
