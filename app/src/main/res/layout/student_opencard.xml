@@ -60,7 +60,37 @@
             android:layout_marginEnd="25dp"
             android:layout_marginTop="10dp"
             android:textSize="18sp"
-            android:text="Registration Number:"/>
+            android:text="Registration Number"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/studentClassTV"
+            app:layout_constraintTop_toBottomOf="@id/studentRegNo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="30dp"
+            android:fontFamily="sans-serif-black"
+            android:textSize="18sp"
+            android:text="Class:"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/studentClass"
+            app:layout_constraintTop_toBottomOf="@id/studentClassTV"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            android:text="Class"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
