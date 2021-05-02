@@ -93,17 +93,21 @@ public class StudentsClassActivity extends AppCompatActivity {
                     for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                         String name = documentSnapshot.get("Username").toString();
                         String regNo = documentSnapshot.get("RegNo").toString();
-                        String photoStoredStr = documentSnapshot.get("photoStored").toString();
+                        ArrayList<URL> photoStoredStr = (ArrayList<URL>) documentSnapshot.get("photoStored");
 
+                        URL photoStored = photoStoredStr.get(0);
+                        classStudents.add(new ClassStudents(regNo, name, className, photoStored));
+
+                        /*
                         try {
-                            URI uri = new URI(photoStoredStr);
-                            URL photoStored = uri.toURL();
+                            // URI uri = new URI(photoStoredStr);
+                            URL photoStored = photoStoredStr.get(0);
                             classStudents.add(new ClassStudents(regNo, name, className, photoStored));
                         } catch (URISyntaxException | MalformedURLException e) {
                             Toast.makeText(StudentsClassActivity.this, "Unable to parse URI.", Toast.LENGTH_SHORT).show();
                             finish();
                         }
-
+                        */
                     }
                 }
             }
