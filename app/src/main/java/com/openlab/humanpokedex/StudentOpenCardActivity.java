@@ -23,16 +23,16 @@ public class StudentOpenCardActivity extends AppCompatActivity {
         setContentView(R.layout.student_opencard);
 
         db = FirebaseFirestore.getInstance();
-        nameET = ;
-        regNoET = ;
-        classET = ;
-        yearET = ;
-        deptET = ;
-        phoneNoET = ;
-        emailIDET = ;
-        trackerLog = ;
-        complaintLog = ;
-        studentImage = ;
+        nameET = findViewById(R.id.studentName);
+        regNoET = findViewById(R.id.studentRegNo);
+        classET = findViewById(R.id.studentClass);
+        yearET = findViewById(R.id.studentYear);
+        deptET = findViewById(R.id.studentDept);
+        phoneNoET = findViewById(R.id.studentPhoneNo);
+        emailIDET = findViewById(R.id.studentEmail);
+        trackerLog = findViewById(R.id.trackerLogBtn);
+        complaintLog = findViewById(R.id.complaintsLogBtn);
+        studentImage = findViewById(R.id.studentImage);
 
     }
 }
