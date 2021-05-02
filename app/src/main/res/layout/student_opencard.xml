@@ -182,7 +182,61 @@
             android:textSize="18sp"
             android:text="Email"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/studentPhoneTV"
+            app:layout_constraintTop_toBottomOf="@id/studentEmail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="30dp"
+            android:fontFamily="sans-serif-black"
+            android:textSize="18sp"
+            android:text="Phone No.:"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/studentPhoneNo"
+            app:layout_constraintTop_toBottomOf="@id/studentPhoneTV"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            android:text="Phone No."/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Complaints Log"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/studentPhoneNo"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:id="@+id/complaintsLogBtn"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Tracker Log"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/complaintsLogBtn"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="25dp"
+            android:id="@+id/trackerLogBtn"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
