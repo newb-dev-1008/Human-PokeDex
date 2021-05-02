@@ -1,5 +1,6 @@
 package com.openlab.humanpokedex;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
@@ -30,14 +32,20 @@ import androidx.lifecycle.LifecycleOwner;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.crashlytics.internal.network.HttpResponse;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -207,12 +215,36 @@ public class RegisterFaceActivity extends AppCompatActivity {
                 capturePic = 1;
                 captureImagesPeriodically();
             case 4:
-                Intent intent = new Intent(RegisterFaceActivity.this, LoginSignUpActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                Toast.makeText(this, "Thanks! Your face has been registered.", Toast.LENGTH_SHORT).show();
+                AlertDialog dialog = new MaterialAlertDialogBuilder(this)
+                        .setMessage("Your face has been registered.")
+                        .setTitle("Thanks!")
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                OkHttpClient httpClient = new OkHttpClient();
+                                String url = "https://45812.wayscript.io/";
+                                try {
+                                    String response = runRequest(url, httpClient);
+                                    Intent intent = new Intent(RegisterFaceActivity.this, LoginSignUpActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                } catch (IOException e) {
+                                    Toast.makeText(RegisterFaceActivity.this, "IO Exception.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }).create();
+                dialog.show();
+                dialog.setCancelable(false);
+                dialog.setCanceledOnTouchOutside(false);
+                // Toast.makeText(this, "Thanks! Your face has been registered.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private String runRequest(String URL, OkHttpClient client) throws IOException {
+        Request request = new Request.Builder().url(URL).build();
+        Response response = client.newCall(request).execute();
+        return response.body().string();
     }
 
     private void captureImagesPeriodically() {
@@ -342,11 +374,12 @@ public class RegisterFaceActivity extends AppCompatActivity {
             StorageReference photoFacesRef = activity.storageReference.child("Photos/" + activity.name);
             ArrayList<Uri> passedArray = new ArrayList<>();
             passedArray = Uris[0];
+
+            capturedImageUri = passedArray.get(0);
+            UploadTask uploadTask1 = photoFacesRef.putFile(capturedImageUri);
+
             for (int i = 0; i < Uris.length; i++) {
-                if (i < 4) {
-                    capturedImageUri = passedArray.get(i);
-                    UploadTask uploadTask = photoFacesRef.putFile(capturedImageUri);
-                }
+
                 capturedImageUri = passedArray.get(i);
                 UploadTask uploadTask = registerFacesRef.putFile(capturedImageUri);
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
