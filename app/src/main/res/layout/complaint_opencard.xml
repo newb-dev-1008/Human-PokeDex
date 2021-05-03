@@ -28,7 +28,7 @@
         android:layout_marginEnd="25dp"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintTop_toBottomOf="@id/complaint_offenceTV"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="65dp"
         android:id="@+id/complaintNoTV"/>
 
     <TextView
@@ -99,6 +99,34 @@
         app:layout_constraintTop_toBottomOf="@id/complaintOffenderRegTV"
         android:layout_marginTop="15dp"
         android:id="@+id/complaintOffenderReg"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date of Offence:"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintTop_toBottomOf="@id/complaintOffenderReg"
+        android:layout_marginTop="45dp"
+        android:id="@+id/complaintDateTV"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintTop_toBottomOf="@id/complaintDateTV"
+        android:layout_marginTop="15dp"
+        android:id="@+id/complaintDate"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
