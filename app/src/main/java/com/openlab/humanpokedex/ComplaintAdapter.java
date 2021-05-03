@@ -1,12 +1,16 @@
 package com.openlab.humanpokedex;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -16,7 +20,7 @@ import java.util.ArrayList;
 public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.ComplaintViewHolder> {
 
     private ArrayList<ComplaintLog> ComplaintLogss;
-    private String date, time, description;
+    private String date, time, offence, complaintNo;
     private Context context;
     private FirebaseFirestore db;
     // private URL photoStored;
@@ -33,6 +37,21 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.Comp
         context = v.getContext();
 
         ComplaintAdapter.ComplaintViewHolder complaintViewHolder = new ComplaintAdapter.ComplaintViewHolder(v);
+
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ComplaintOpenCardActivity.class);
+                String transitionName = v.getResources().getString(R.string.transitionAnimation);
+                View viewStart = v.findViewById(R.id.complaintlog_cardview);
+
+                intent.putExtra("complaintNo", complaintNo);
+                ActivityOptionsCompat options =
+                        ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) v.getContext(), viewStart, transitionName);
+
+                ActivityCompat.startActivity(v.getContext(), intent, options.toBundle());
+            }
+        });
         return complaintViewHolder;
     }
 
@@ -42,11 +61,13 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.Comp
 
         date = complaintLog.getDate();
         time = complaintLog.getTime();
-        description = complaintLog.getDescription();
+        offence = complaintLog.getOffence();
+        complaintNo = complaintLog.getComplaintNo();
 
         holder.dateTV.setText(date);
         holder.timeTV.setText(time);
-        holder.descriptionTV.setText(description);
+        holder.offenceTV.setText(offence);
+        holder.complaintNoTV.setText(complaintNo);
 
     }
 
@@ -56,14 +77,15 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.Comp
     }
 
     public static class ComplaintViewHolder extends RecyclerView.ViewHolder {
-        public TextView dateTV, timeTV, descriptionTV;
+        public TextView dateTV, timeTV, offenceTV, complaintNoTV;
 
         public ComplaintViewHolder(@NonNull View itemView) {
             super(itemView);
 
             dateTV = itemView.findViewById(R.id.complaintlogDateTV);
             timeTV = itemView.findViewById(R.id.complaintlogTimeTV);
-            descriptionTV = itemView.findViewById(R.id.complaintlogArea);
+            offenceTV = itemView.findViewById(R.id.complaintlogOffence);
+            complaintNoTV = itemView.findViewById(R.id.complaintlogComplaintNoTV);
         }
     }
 
