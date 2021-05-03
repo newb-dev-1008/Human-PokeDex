@@ -78,9 +78,14 @@ public class ComplaintOpenCardActivity extends AppCompatActivity {
     }
 
     private void displayPopulatedView() {
+        layout.setVisibility(View.GONE);
         offenceTitleTV.setText(offence);
         offenderNameTV.setText(offenderName);
         complaineeRegNoTV.setText(complaineeRegNo);
-
+        complaineeNameTV.setText(complaineeName);
+        offenderRegTV.setText(offenderRegNo);
+        dateTV.setText(date);
+        timeTV.setText(time);
+        descriptionTV.setText(description);
     }
 }
