@@ -122,6 +122,7 @@ public class StudentOpenCardActivity extends AppCompatActivity {
 
     private void viewTrackerLog() {
         Intent intent = new Intent(StudentOpenCardActivity.this, StudentTrackerLogActivity.class);
+        intent.putExtra("regNo", regNo);
         startActivity(intent);
     }
 }
