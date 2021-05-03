@@ -35,7 +35,7 @@ import java.util.List;
 
 public class StudentsClassAdapter extends RecyclerView.Adapter<StudentsClassAdapter.StudentsClassViewHolder> {
 
-    private ArrayList<ClassStudents> ClassStudents;
+    private ArrayList<ClassStudents> ClassStudentss;
     private String name, className, regNo;
     private Context context;
     private FirebaseFirestore db;
@@ -44,7 +44,7 @@ public class StudentsClassAdapter extends RecyclerView.Adapter<StudentsClassAdap
     // private URL photoStored;
 
     public StudentsClassAdapter(ArrayList<ClassStudents> classStudents) {
-        ClassStudents = classStudents;
+        ClassStudentss = classStudents;
         storage = FirebaseStorage.getInstance();
         db = FirebaseFirestore.getInstance();
     }
@@ -76,7 +76,7 @@ public class StudentsClassAdapter extends RecyclerView.Adapter<StudentsClassAdap
 
     @Override
     public void onBindViewHolder(@NonNull StudentsClassViewHolder holder, int position) {
-        ClassStudents classStudent = ClassStudents.get(position);
+        ClassStudents classStudent = ClassStudentss.get(position);
 
         name = classStudent.getStudentName();
         regNo = classStudent.getRegNo();
