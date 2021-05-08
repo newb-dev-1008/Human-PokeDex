@@ -55,6 +55,7 @@ import android.widget.Toast;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.openlab.humanpokedex.R;
+import com.openlab.humanpokedex.TFLiteFaceRecognition.env.ImageUtils;
 import com.openlab.humanpokedex.TFLiteFaceRecognition.env.Logger;
 
 import java.nio.ByteBuffer;
@@ -125,7 +126,7 @@ public abstract class CameraActivity extends AppCompatActivity
       requestPermission();
     }
 
-    bottomSheetLayout = findViewById(com.openlab.humanpokedex.R.id.);
+    bottomSheetLayout = findViewById(com.openlab.humanpokedex.R.id.bottom_sheet_layout);
     gestureLayout = findViewById(com.openlab.humanpokedex.R.id.gesture_layout);
     sheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
     bottomSheetArrowImageView = findViewById(com.openlab.humanpokedex.R.id.bottom_sheet_arrow);
@@ -179,14 +180,6 @@ public abstract class CameraActivity extends AppCompatActivity
           public void onSlide(@NonNull View bottomSheet, float slideOffset) {}
         });
 
-    frameValueTextView = findViewById(R.id.frame_info);
-    cropValueTextView = findViewById(R.id.crop_info);
-    inferenceTimeTextView = findViewById(R.id.inference_info);
-
-    apiSwitchCompat.setOnCheckedChangeListener(this);
-
-    plusImageView.setOnClickListener(this);
-    minusImageView.setOnClickListener(this);
 
     btnSwitchCam.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -198,13 +191,10 @@ public abstract class CameraActivity extends AppCompatActivity
   }
 
   private void onSwitchCamClick() {
-
     switchCamera();
-
   }
 
   public void switchCamera() {
-
     Intent intent = getIntent();
 
     if (useFacing == CameraCharacteristics.LENS_FACING_FRONT) {
@@ -460,15 +450,10 @@ public abstract class CameraActivity extends AppCompatActivity
   }
 
    private String chooseCamera() {
-
         final CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
-
         try {
-
-
             for (final String cameraId : manager.getCameraIdList()) {
                 final CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
-
 
                 final StreamConfigurationMap map =
                         characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
@@ -490,16 +475,13 @@ public abstract class CameraActivity extends AppCompatActivity
 
                 if (useFacing != null &&
                         facing != null &&
-                        !facing.equals(useFacing)
-                ) {
+                        !facing.equals(useFacing)) {
                     continue;
                 }
-
 
                 useCamera2API = (facing == CameraCharacteristics.LENS_FACING_EXTERNAL)
                                 || isHardwareLevelSupported(
                                 characteristics, CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL);
-
 
                 LOGGER.i("Camera API lv2?: %s", useCamera2API);
                 return cameraId;
@@ -507,13 +489,10 @@ public abstract class CameraActivity extends AppCompatActivity
         } catch (CameraAccessException e) {
             LOGGER.e(e, "Not allowed to access camera");
         }
-
         return null;
     }
 
-
  protected void setFragment() {
-
         this.cameraId = chooseCamera();
 
         Fragment fragment;
@@ -547,7 +526,7 @@ public abstract class CameraActivity extends AppCompatActivity
 
         }
 
-        getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+        getFragmentManager().beginTransaction().replace(com.openlab.humanpokedex.R.id.container, fragment).commit();
     }
 
   protected void fillBytes(final Plane[] planes, final byte[][] yuvBytes) {
@@ -586,45 +565,21 @@ public abstract class CameraActivity extends AppCompatActivity
     }
   }
 
+  protected void updateStudentsList(String regNo) {
+      // Finish this for UI update
+  }
+
   @Override
   public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
     setUseNNAPI(isChecked);
-    if (isChecked) apiSwitchCompat.setText("NNAPI");
-    else apiSwitchCompat.setText("TFLITE");
   }
 
+  /*
   @Override
   public void onClick(View v) {
-    if (v.getId() == R.id.plus) {
-      String threads = threadsTextView.getText().toString().trim();
-      int numThreads = Integer.parseInt(threads);
-      if (numThreads >= 9) return;
-      numThreads++;
-      threadsTextView.setText(String.valueOf(numThreads));
-      setNumThreads(numThreads);
-    } else if (v.getId() == R.id.minus) {
-      String threads = threadsTextView.getText().toString().trim();
-      int numThreads = Integer.parseInt(threads);
-      if (numThreads == 1) {
-        return;
-      }
-      numThreads--;
-      threadsTextView.setText(String.valueOf(numThreads));
-      setNumThreads(numThreads);
-    }
-  }
 
-  protected void showFrameInfo(String frameInfo) {
-    frameValueTextView.setText(frameInfo);
   }
-
-  protected void showCropInfo(String cropInfo) {
-    cropValueTextView.setText(cropInfo);
-  }
-
-  protected void showInference(String inferenceTime) {
-    inferenceTimeTextView.setText(inferenceTime);
-  }
+  */
 
   protected abstract void processImage();
 
