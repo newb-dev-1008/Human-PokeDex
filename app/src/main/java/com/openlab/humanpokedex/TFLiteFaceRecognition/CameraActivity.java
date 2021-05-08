@@ -39,6 +39,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -50,15 +51,21 @@ import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.openlab.humanpokedex.R;
+import com.openlab.humanpokedex.StudentTrackerLogActivity;
 import com.openlab.humanpokedex.TFLiteFaceRecognition.env.ImageUtils;
 import com.openlab.humanpokedex.TFLiteFaceRecognition.env.Logger;
+import com.openlab.humanpokedex.TFLiteFaceRecognition.tflite.SimilarityClassifier;
+import com.openlab.humanpokedex.TrackerAdapter;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 
 import static android.os.Build.VERSION_CODES.R;
 
@@ -88,8 +95,12 @@ public abstract class CameraActivity extends AppCompatActivity
   private LinearLayout bottomSheetLayout;
   private LinearLayout gestureLayout;
   private BottomSheetBehavior<LinearLayout> sheetBehavior;
+  private FirebaseFirestore db;
+  private ProgressBar progressBar;
 
   private RecyclerView recognizeResultsRecyclerView;
+  private RecyclerView.Adapter recognizedStudentAdapter;
+
   protected ImageView bottomSheetArrowImageView;
   // private ImageView plusImageView, minusImageView;
   // private SwitchCompat apiSwitchCompat;
@@ -115,6 +126,7 @@ public abstract class CameraActivity extends AppCompatActivity
     useFacing = intent.getIntExtra(KEY_USE_FACING, CameraCharacteristics.LENS_FACING_BACK);
 
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    db = FirebaseFirestore.getInstance();
 
     setContentView(com.openlab.humanpokedex.R.layout.recognize_face);
     // Toolbar toolbar = findViewById(com.openlab.humanpokedex.R.id);
@@ -127,9 +139,11 @@ public abstract class CameraActivity extends AppCompatActivity
     }
 
     bottomSheetLayout = findViewById(com.openlab.humanpokedex.R.id.bottom_sheet_layout);
+    progressBar = findViewById(com.openlab.humanpokedex.R.id.bottomsheetProgress);
     gestureLayout = findViewById(com.openlab.humanpokedex.R.id.gesture_layout);
     sheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
     bottomSheetArrowImageView = findViewById(com.openlab.humanpokedex.R.id.bottom_sheet_arrow);
+    recognizeResultsRecyclerView = findViewById(com.openlab.humanpokedex.R.id.imageRecycler);
 
     btnSwitchCam = findViewById(com.openlab.humanpokedex.R.id.fab_switchcam);
 
@@ -565,8 +579,13 @@ public abstract class CameraActivity extends AppCompatActivity
     }
   }
 
-  protected void updateStudentsList(String regNo) {
+  protected void updateStudentsList(List<SimilarityClassifier.Recognition> recognitionList) {
       // Finish this for UI update
+      LinearLayoutManager cameraLayoutManager = new LinearLayoutManager(CameraActivity.this);
+      recognizedStudentAdapter = new RecognizedStudentAdapter(recognitionList);
+      recognizeResultsRecyclerView.setHasFixedSize(true);
+      recognizeResultsRecyclerView.setLayoutManager(cameraLayoutManager);
+      recognizeResultsRecyclerView.setAdapter(recognizedStudentAdapter);
   }
 
   @Override

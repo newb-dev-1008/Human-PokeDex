@@ -150,7 +150,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
     faceDetector = detector;
 
-
     //checkWritePermission();
 
   }
@@ -413,8 +412,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
       runOnUiThread(new Runnable() {
         @Override
         public void run() {
-          regNo = rec.getTitle();
-          updateStudentsList(regNo);
+          updateStudentsList(mappedRecognitions);
         }
       });
 
@@ -574,8 +572,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
     updateResults(currTimestamp, mappedRecognitions);
 
-
   }
-
 
 }
