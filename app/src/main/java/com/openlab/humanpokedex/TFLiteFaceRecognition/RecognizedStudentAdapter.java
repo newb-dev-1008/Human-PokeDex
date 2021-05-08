@@ -46,7 +46,7 @@ public class RecognizedStudentAdapter extends RecyclerView.Adapter<RecognizedStu
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), StudentOpenCardActivity.class);
                 String transitionName = view.getResources().getString(R.string.transitionAnimation);
-                View viewStart = view.findViewById(R.id.student_cardview);
+                View viewStart = view.findViewById(R.id.recognized_face_cardview);
 
                 intent.putExtra("regNo", regNo);
                 ActivityOptionsCompat options =
@@ -56,11 +56,11 @@ public class RecognizedStudentAdapter extends RecyclerView.Adapter<RecognizedStu
             }
         });
 
-        return studentsClassViewHolder;
+        return recognizedStudentsViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @org.jetbrains.annotations.NotNull RecognizedStudentAdapter.RecognizedStudentsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecognizedStudentAdapter.RecognizedStudentsViewHolder holder, int position) {
 
     }
 
