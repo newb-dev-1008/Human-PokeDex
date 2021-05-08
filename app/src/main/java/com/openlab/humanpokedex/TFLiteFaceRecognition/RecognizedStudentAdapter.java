@@ -14,21 +14,31 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
+import com.openlab.humanpokedex.ClassStudents;
 import com.openlab.humanpokedex.R;
 import com.openlab.humanpokedex.StudentOpenCardActivity;
 import com.openlab.humanpokedex.StudentsClassAdapter;
 import com.openlab.humanpokedex.TFLiteFaceRecognition.tflite.SimilarityClassifier;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecognizedStudentAdapter extends RecyclerView.Adapter<RecognizedStudentAdapter.RecognizedStudentsViewHolder> {
 
     private List<SimilarityClassifier.Recognition> recognitionArrayList;
-    private String regNo, className;
+    private String regNo, className, name;
+    private URL photoURL;
     private Context context;
     private FirebaseFirestore db;
+    private FirebaseStorage storage;
 
     public RecognizedStudentAdapter(List<SimilarityClassifier.Recognition> recognizedStudents) {
         recognitionArrayList = recognizedStudents;
@@ -61,7 +71,33 @@ public class RecognizedStudentAdapter extends RecyclerView.Adapter<RecognizedStu
 
     @Override
     public void onBindViewHolder(@NonNull RecognizedStudentAdapter.RecognizedStudentsViewHolder holder, int position) {
+        SimilarityClassifier.Recognition studentRecognition = recognitionArrayList.get(position);
 
+        regNo = studentRecognition.getTitle();
+
+        db.collection("Users").document("Username " + regNo).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        ArrayList<URL> photoStored = new ArrayList<>();
+                        photoStored = (ArrayList<URL>) documentSnapshot.get("photoStored");
+                        photoURL = photoStored.get(0);
+                        name = documentSnapshot.get("Username").toString();
+                        className = documentSnapshot.get("Class").toString();
+                    }
+                });
+
+
+        StorageReference storageRef = storage.getReferenceFromUrl(photoURL.toString());
+        storageRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+            @Override
+            public void onSuccess(ListResult listResult) {
+                List<StorageReference> listItems = listResult.getItems();
+                StorageReference realRef = listItems.get(0);
+
+                Glide.with(context).load(realRef).into(holder.photo);
+            }
+        });
     }
 
     @Override
