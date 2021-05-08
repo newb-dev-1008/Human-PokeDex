@@ -26,7 +26,7 @@ public class ComplaintLogActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
     private ProgressBar progressBar;
-    private String regNo;
+    private String regNo, date, time, offence, complaintNo;
     private ArrayList<String> complaintLog;
     private ArrayList<ComplaintLog> complaintLogArray;
     private TextView complaintLogProgressTV;
@@ -80,8 +80,23 @@ public class ComplaintLogActivity extends AppCompatActivity {
             }
         });
 
-        for (String s : complaintLog) {
-            db.collection()
+        for (complaintNo : complaintLog) {
+            db.collection("Complaints").document(complaintNo).get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(@NonNull DocumentSnapshot documentSnapshot) {
+                            date = documentSnapshot.get("Date").toString();
+                            time = documentSnapshot.get("Time").toString();
+                            offence = documentSnapshot.get("Offence").toString();
+
+                            complaintLogArray.add(new ComplaintLog(date, time, offence, complaintNo));
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(ComplaintLogActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }
