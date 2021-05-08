@@ -122,6 +122,7 @@ public class StudentsClassActivity extends AppCompatActivity {
     private void runUIThread() {
         if (classStudents.size() == 0) {
             classnameTV.setText("Empty Class.");
+            progressBar.setVisibility(View.GONE);
         } else {
             GridLayoutManager classStudentsLayoutManager = new GridLayoutManager(StudentsClassActivity.this, 3);
             classStudentsAdapter = new StudentsClassAdapter(classStudents);

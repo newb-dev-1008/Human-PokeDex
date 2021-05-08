@@ -1,5 +1,6 @@
 package com.openlab.humanpokedex;
 
+import android.net.IpSecManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -9,6 +10,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -26,7 +29,7 @@ public class ComplaintLogActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
     private ProgressBar progressBar;
-    private String regNo, date, time, offence, complaintNo;
+    private String regNo, date, time, offence;
     private ArrayList<String> complaintLog;
     private ArrayList<ComplaintLog> complaintLogArray;
     private TextView complaintLogProgressTV;
@@ -64,6 +67,13 @@ public class ComplaintLogActivity extends AppCompatActivity {
                  });
              }
          }).start();
+
+         runOnUiThread(new Runnable() {
+             @Override
+             public void run() {
+                 updateUI();
+             }
+         });
     }
 
     private void backgroundDataRetrieval() {
@@ -80,7 +90,7 @@ public class ComplaintLogActivity extends AppCompatActivity {
             }
         });
 
-        for (complaintNo : complaintLog) {
+        for (String complaintNo : complaintLog) {
             db.collection("Complaints").document(complaintNo).get()
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
@@ -97,6 +107,20 @@ public class ComplaintLogActivity extends AppCompatActivity {
                     Toast.makeText(ComplaintLogActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+    }
+
+    private void updateUI() {
+        if (complaintLogArray.size() == 0) {
+            complaintLogProgressTV.setText("Empty Class.");
+            progressBar.setVisibility(View.GONE);
+        } else {
+            LinearLayoutManager complaintsLayoutManager = new LinearLayoutManager(ComplaintLogActivity.this);
+            complaintAdapter = new ComplaintAdapter(complaintLogArray);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(complaintsLayoutManager);
+            recyclerView.setAdapter(complaintAdapter);
+            // swipeDownRefreshTV.setVisibility(View.GONE);
         }
     }
 }
