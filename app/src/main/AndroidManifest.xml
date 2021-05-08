@@ -28,6 +28,11 @@
         <activity android:name=".AddDetailsActivity"/>
         <activity android:name=".RecognizeFaceActivity"/>
         <activity android:name=".HomeActivity"/>
+
+        <activity
+            android:name=".TFLiteFaceRecognition.DetectorActivity"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

@@ -29,7 +29,7 @@ public class ComplaintOpenCardActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        offenceTitleTV = findViewById(R.id.complaint_offenceTV);
+        offenceTitleTV = findViewById(R.id);
         offenderNameTV = findViewById(R.id.complaintOffenderName);
         offenderRegTV = findViewById(R.id.complaintOffenderReg);
         dateTV = findViewById(R.id.complaintDate);
