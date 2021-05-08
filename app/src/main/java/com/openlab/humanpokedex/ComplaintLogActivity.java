@@ -33,5 +33,28 @@ public class ComplaintLogActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.trackerLogRecyclerView);
         progressBar = findViewById(R.id.trackerLogProgress);
         db = FirebaseFirestore.getInstance();
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                showComplaints();
+                refreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    private void showComplaints() {
+         new Thread(new Runnable() {
+             @Override
+             public void run() {
+                 backgroundDataRetrieval();
+                 runOnUiThread(new Runnable() {
+                     @Override
+                     public void run() {
+
+                     }
+                 });
+             }
+         })
     }
 }
