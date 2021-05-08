@@ -117,6 +117,7 @@ public class StudentOpenCardActivity extends AppCompatActivity {
 
     private void viewComplaintLog() {
         Intent intent = new Intent(StudentOpenCardActivity.this, ComplaintLogActivity.class);
+        intent.putExtra("regNo", regNo);
         startActivity(intent);
     }
 
