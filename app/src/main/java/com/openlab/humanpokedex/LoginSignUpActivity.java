@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
+import com.openlab.humanpokedex.TFLiteFaceRecognition.CameraActivity;
 
 public class LoginSignUpActivity extends AppCompatActivity {
 
@@ -64,12 +65,12 @@ public class LoginSignUpActivity extends AppCompatActivity {
     }
 
     private void recognizeFace() {
-        Intent intent = new Intent(LoginSignUpActivity.this, RecognizeFaceActivity.class);
+        Intent intent = new Intent(LoginSignUpActivity.this, CameraActivity.class);
         startActivity(intent);
     }
 
     private void registerFace() {
-        Intent intent = new Intent(LoginSignUpActivity.this, RegisterFaceActivity.class);
+        Intent intent = new Intent(LoginSignUpActivity.this, CameraActivity.class);
         startActivity(intent);
     }
 }
