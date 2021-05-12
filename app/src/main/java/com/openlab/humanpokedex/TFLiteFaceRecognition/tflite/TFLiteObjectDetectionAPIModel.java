@@ -106,21 +106,22 @@ public class TFLiteObjectDetectionAPIModel
   private FirebaseFirestore db;
 
   // private HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>();
-  private ArrayList<Map<String, ArrayList<Float>>> embedData;
+  private ArrayList<Map<String, Map<String, Object>>> embedData;
 
   private void registeredEmbeds(String name, ArrayList<Float> embeds) {
     db = FirebaseFirestore.getInstance();
     db.collection("Embeddings").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
       @Override
       public void onSuccess(@NonNull QuerySnapshot queryDocumentSnapshots) {
-        int i = 0;
         for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
-          Map<String, ArrayList<Float>> tempMap = new HashMap<>();
-          ArrayList<Float> tempArray = new ArrayList<>();
-          tempArray = (ArrayList<Float>) queryDocumentSnapshot.getData().get(i);
+          Map<String, Object> tempMap = new HashMap<>();
+          Map<String, Map<String, Object>> tempMap1 = new HashMap<>();
+          tempMap = queryDocumentSnapshot.getData();
+          // ArrayList<Float> tempArray = new ArrayList<>();
+          // tempArray = (ArrayList<Float>) queryDocumentSnapshot.getData().get(i);
 
-          tempMap.put(queryDocumentSnapshot.getId().toString(), tempArray);
-          i++;
+          tempMap1.put(queryDocumentSnapshot.getId().toString(), tempMap);
+          embedData.add(tempMap1);
         }
       }
     }).addOnFailureListener(new OnFailureListener() {
@@ -233,9 +234,12 @@ public class TFLiteObjectDetectionAPIModel
   }
   */
 
-  private Pair<String, Float> findNearest(float[] emb) {
+  private Pair<String, Float> findNearest(ArrayList<Float> emb) {
 
     Pair<String, Float> ret = null;
+    for (Map<String, ArrayList<Float>> entry : embedData) {
+      final String name = entry.
+    }
     for (Map.Entry<String, Recognition> entry : registered.entrySet()) {
       final String name = entry.getKey();
       final float[] knownEmb = ((float[][]) entry.getValue().getExtra())[0];
