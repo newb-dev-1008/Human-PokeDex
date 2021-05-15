@@ -126,7 +126,7 @@ public class TFLiteObjectDetectionAPIModel
       }
     }).addOnFailureListener(new OnFailureListener() {
       @Override
-      public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
+      public void onFailure(@NonNull Exception e) {
         // Finish this
       }
     });
@@ -237,9 +237,31 @@ public class TFLiteObjectDetectionAPIModel
   private Pair<String, Float> findNearest(ArrayList<Float> emb) {
 
     Pair<String, Float> ret = null;
-    for (Map<String, ArrayList<Float>> entry : embedData) {
-      final String name = entry.
+    for (Map<String, Map<String, Object>> entryData : embedData) {
+      for (Map.Entry<String, Map<String, Object>> entry : entryData.entrySet()) {
+        final String name = entry.getKey();
+        Map<String, Object> tempObj = entry.getValue();
+
+        for (String str : tempObj.keySet()) {
+          final ArrayList<Float> knownEmb = (ArrayList<Float>) tempObj.get(str);
+          float distance = 0;
+
+          for (int i = 0; i < emb.size(); i++) {
+            float diff = emb.get(i) - knownEmb.get(i);
+            distance += diff * diff;
+          }
+
+          distance = (float) Math.sqrt(distance);
+          if (ret == null || distance < ret.second) {
+            ret = new Pair<>(name, distance);
+          }
+        }
+      }
     }
+    return ret;
+  }
+
+    /*
     for (Map.Entry<String, Recognition> entry : registered.entrySet()) {
       final String name = entry.getKey();
       final float[] knownEmb = ((float[][]) entry.getValue().getExtra())[0];
@@ -257,6 +279,12 @@ public class TFLiteObjectDetectionAPIModel
 
     return ret;
 
+  }
+  */
+
+  @Override
+  public void register(String name, Recognition recognition) {
+    // Do nothing
   }
 
   @Override
@@ -298,7 +326,9 @@ public class TFLiteObjectDetectionAPIModel
 // Here outputMap is changed to fit the Face Mask detector
     Map<Integer, Object> outputMap = new HashMap<>();
 
-    embeddings = new float[1][OUTPUT_SIZE];
+    ArrayList<ArrayList<Float>> embeddings = new ArrayList<>();
+
+    // embeddings = new float[1][OUTPUT_SIZE];
     outputMap.put(0, embeddings);
 
 
@@ -320,9 +350,10 @@ public class TFLiteObjectDetectionAPIModel
     String id = "0";
     String label = "?";
 
-    if (registered.size() > 0) {
+    if (embedData.size() > 0) {
         //LOGGER.i("dataset SIZE: " + registered.size());
-        final Pair<String, Float> nearest = findNearest(embeddings[0]);
+        
+        final Pair<String, Float> nearest = findNearest(embeddings.get(0));
         if (nearest != null) {
 
             final String name = nearest.first;
@@ -331,10 +362,8 @@ public class TFLiteObjectDetectionAPIModel
 
             LOGGER.i("nearest: " + name + " - distance: " + distance);
 
-
         }
     }
-
 
     final int numDetectionsOutput = 1;
     final ArrayList<Recognition> recognitions = new ArrayList<>(numDetectionsOutput);
@@ -344,7 +373,7 @@ public class TFLiteObjectDetectionAPIModel
             distance,
             new RectF());
 
-    recognitions.add( rec );
+    recognitions.add(rec);
 
     if (storeExtra) {
         rec.setExtra(embeddings);
