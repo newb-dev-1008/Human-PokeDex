@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.openlab.humanpokedex.TFLiteFaceRecognition.DetectorActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -41,6 +42,7 @@ public class HomeActivity extends AppCompatActivity {
         recognizeFaceButton = findViewById(R.id.recognizeFaceButton);
         identifyCriminalButton = findViewById(R.id.identifyCriminalsButton);
         findStudentButton = findViewById(R.id.findStudentButton);
+        registerFaceButton = findViewById(R.id.registerFaceButton);
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
@@ -118,6 +120,13 @@ public class HomeActivity extends AppCompatActivity {
                 findStudent();
             }
         });
+
+        registerFaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerFace();
+            }
+        });
     }
 
     private void trackerLog() {
@@ -127,8 +136,28 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void complaintLog() {
-        Intent intent = new Intent(HomeActivity.this, StudentTrackerLogActivity.class);
+        Intent intent = new Intent(HomeActivity.this, ComplaintLogActivity.class);
         intent.putExtra("regNo", regNo);
+        startActivity(intent);
+    }
+
+    private void recognizeFace() {
+        Intent intent = new Intent(HomeActivity.this, DetectorActivity.class);
+        startActivity(intent);
+    }
+
+    private void identifyCriminal() {
+        // Finish this
+    }
+
+    private void findStudent() {
+        Intent intent = new Intent(HomeActivity.this, SelectClassActivity.class);
+        startActivity(intent);
+    }
+
+    private void registerFace() {
+        Intent intent = new Intent(HomeActivity.this, RegisterFaceActivity.class);
+        intent.putExtra("registerFlag", 1);
         startActivity(intent);
     }
 }
