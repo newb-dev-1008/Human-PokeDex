@@ -65,14 +65,18 @@ public class TFLiteObjectDetectionAPIModel
   private static final Logger LOGGER = new Logger();
 
   //private static final int OUTPUT_SIZE = 512;
-  private static final int OUTPUT_SIZE = 192;
+  // private static final int OUTPUT_SIZE = 192;
+  private static final int OUTPUT_SIZE = 128;
 
   // Only return this many results.
   private static final int NUM_DETECTIONS = 1;
 
   // Float model
-  private static final float IMAGE_MEAN = 128.0f;
-  private static final float IMAGE_STD = 128.0f;
+  // private static final float IMAGE_MEAN = 128.0f;
+  // private static final float IMAGE_STD = 128.0f;
+  private static final float IMAGE_MEAN = 0.0f;
+  private static final float IMAGE_STD = 255.0f;
+
 
   // Number of threads in the java app
   private static final int NUM_THREADS = 4;

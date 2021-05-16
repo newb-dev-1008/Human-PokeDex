@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private MaterialButton signOutButton;
+    private MaterialButton signOutButton, trackerLogButton, complaintLogButton, trafficButton, recognizeFaceButton, identifyCriminalButton;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
 
@@ -27,6 +27,12 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.home_layout);
 
         signOutButton = findViewById(R.id.logOutButton);
+        trackerLogButton = findViewById(R.id.trackerLogButton);
+        complaintLogButton = findViewById(R.id.complaintLogButton);
+        trafficButton = findViewById(R.id.traff);
+        recognizeFaceButton = findViewById(R.id.logOutButton);
+        identifyCriminalButton = findViewById(R.id.logOutButton);
+
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
 

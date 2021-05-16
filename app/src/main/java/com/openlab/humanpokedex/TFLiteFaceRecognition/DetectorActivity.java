@@ -76,9 +76,9 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 //  //private static final String TF_OD_API_MODEL_FILE = "facenet_hiroki.tflite";
 
   // MobileFaceNet
-  private static final int TF_OD_API_INPUT_SIZE = 112;
+  private static final int TF_OD_API_INPUT_SIZE = 160;
   private static final boolean TF_OD_API_IS_QUANTIZED = false;
-  private static final String TF_OD_API_MODEL_FILE = "mobile_face_net.tflite";
+  private static final String TF_OD_API_MODEL_FILE = "saved_model.tflite";
 
 
   private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/labelmap.txt";
