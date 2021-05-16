@@ -27,11 +27,19 @@
         <activity android:name=".RegisterFaceActivity"/>
         <activity android:name=".AddDetailsActivity"/>
         <activity android:name=".HomeActivity"/>
+        <activity android:name=".ComplaintLogActivity"/>
+        <activity android:name=".StudentTrackerLogActivity"/>
+        <activity android:name=".StudentsClassActivity"/>
+        <activity android:name=".StudentOpenCardActivity"/>
+        <activity android:name=".SelectClassActivity"/>
+        <activity android:name=".ComplaintOpenCardActivity"/>
 
         <activity
             android:name=".TFLiteFaceRecognition.DetectorActivity"
             android:screenOrientation="portrait">
         </activity>
+
+        <activity android:name=".TFLiteFaceRecognition.CameraActivity"/>
     </application>
 
 </manifest>
