@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private MaterialButton signOutButton, trackerLogButton, complaintLogButton, trafficButton, recognizeFaceButton, identifyCriminalButton;
+    private MaterialButton signOutButton, trackerLogButton, complaintLogButton, trafficButton, recognizeFaceButton, identifyCriminalButton, findStudentButton;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
 
@@ -29,9 +29,10 @@ public class HomeActivity extends AppCompatActivity {
         signOutButton = findViewById(R.id.logOutButton);
         trackerLogButton = findViewById(R.id.trackerLogButton);
         complaintLogButton = findViewById(R.id.complaintLogButton);
-        trafficButton = findViewById(R.id.traff);
-        recognizeFaceButton = findViewById(R.id.logOutButton);
-        identifyCriminalButton = findViewById(R.id.logOutButton);
+        trafficButton = findViewById(R.id.trafficButton);
+        recognizeFaceButton = findViewById(R.id.recognizeFaceButton);
+        identifyCriminalButton = findViewById(R.id.identifyCriminalsButton);
+        findStudentButton = findViewById(R.id.findStudentButton);
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
@@ -54,6 +55,41 @@ public class HomeActivity extends AppCompatActivity {
                             }
                         }).setNegativeButton("Cancel", null)
                         .show();
+            }
+        });
+
+        trackerLogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                trackerLog();
+            }
+        });
+
+        complaintLogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                complaintLog();
+            }
+        });
+
+        recognizeFaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recognizeFace();
+            }
+        });
+
+        identifyCriminalButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                identifyCriminal();
+            }
+        });
+
+        findStudentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findStudent();
             }
         });
     }
