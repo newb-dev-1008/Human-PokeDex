@@ -6,20 +6,28 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private MaterialButton signOutButton, trackerLogButton, complaintLogButton, trafficButton, recognizeFaceButton, identifyCriminalButton, findStudentButton;
+    private MaterialButton signOutButton, trackerLogButton, complaintLogButton, trafficButton, recognizeFaceButton, identifyCriminalButton, findStudentButton, registerFaceButton;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
+    private FirebaseFirestore db;
+    String regNo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +44,24 @@ public class HomeActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+
+        db.collection("Users").whereEqualTo("emailID", user.getEmail())
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(@NonNull QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots.size() > 0) {
+                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        regNo = documentSnapshot.get("RegNo").toString();
+                    }
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,5 +118,17 @@ public class HomeActivity extends AppCompatActivity {
                 findStudent();
             }
         });
+    }
+
+    private void trackerLog() {
+        Intent intent = new Intent(HomeActivity.this, StudentTrackerLogActivity.class);
+        intent.putExtra("regNo", regNo);
+        startActivity(intent);
+    }
+
+    private void complaintLog() {
+        Intent intent = new Intent(HomeActivity.this, StudentTrackerLogActivity.class);
+        intent.putExtra("regNo", regNo);
+        startActivity(intent);
     }
 }
