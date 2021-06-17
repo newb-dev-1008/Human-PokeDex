@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".SplashScreenActivity">
+        <activity android:name="com.openlab.homodex.LoginSignUpActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -21,25 +21,26 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".LoginSignUpActivity"/>
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".SignUpActivity"/>
-        <activity android:name=".RegisterFaceActivity"/>
-        <activity android:name=".AddDetailsActivity"/>
-        <activity android:name=".HomeActivity"/>
-        <activity android:name=".ComplaintLogActivity"/>
-        <activity android:name=".StudentTrackerLogActivity"/>
-        <activity android:name=".StudentsClassActivity"/>
-        <activity android:name=".StudentOpenCardActivity"/>
-        <activity android:name=".SelectClassActivity"/>
-        <activity android:name=".ComplaintOpenCardActivity"/>
+        <activity android:name="com.openlab.homodex.SplashScreenActivity"/>
+        <activity android:name="com.openlab.homodex.LoginActivity"/>
+        <activity android:name="com.openlab.homodex.SignUpActivity"/>
+        <activity android:name="com.openlab.homodex.RegisterFaceActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"/>
+        <activity android:name="com.openlab.homodex.AddDetailsActivity"/>
+        <activity android:name="com.openlab.homodex.HomeActivity"/>
+        <activity android:name="com.openlab.homodex.ComplaintLogActivity"/>
+        <activity android:name="com.openlab.homodex.StudentTrackerLogActivity"/>
+        <activity android:name="com.openlab.homodex.StudentsClassActivity"/>
+        <activity android:name="com.openlab.homodex.StudentOpenCardActivity"/>
+        <activity android:name="com.openlab.homodex.SelectClassActivity"/>
+        <activity android:name="com.openlab.homodex.ComplaintOpenCardActivity"/>
 
         <activity
-            android:name=".TFLiteFaceRecognition.DetectorActivity"
+            android:name="com.openlab.homodex.TFLiteFaceRecognition.DetectorActivity"
             android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".TFLiteFaceRecognition.CameraActivity"/>
+        <activity android:name="com.openlab.homodex.TFLiteFaceRecognition.CameraActivity"/>
     </application>
 
 </manifest>
