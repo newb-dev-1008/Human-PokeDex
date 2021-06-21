@@ -5,7 +5,6 @@
 ### Find the complete thesis [here](https://drive.google.com/file/d/1AOSW5C8Con3GtNauXkv9PnpVY6GhWrSh/view?usp=sharing).  
 
 ## **Overview**
----
 
 **Human PokeDex** aims at promoting safety on campus by automating the task of monitoring and reporting crimes by assigning the responsibility of detecting criminal or abnormal activity to a system which is well-versed in **deducing patterns** that distinguish criminal activity from normal activity.
 \
